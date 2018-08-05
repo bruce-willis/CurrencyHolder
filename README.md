@@ -1,5 +1,8 @@
 #  CurrencyHolder
 
+## Continuous Integration (dev branch)
+* CircleCI [![CircleCI](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev.svg?style=svg)](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev)
+
 ## Used libraries
 
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
