@@ -13,9 +13,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.data.enum.TypeCategoryEnum
-import com.example.beardie.currencyholder.data.model.Balance
+import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.model.FinanceCurrency
-import com.example.beardie.currencyholder.data.model.TransactionCategory
+import com.example.beardie.currencyholder.data.local.entity.Category
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.TransactionViewModel
@@ -35,7 +35,7 @@ class AddTransactionFragment : DaggerFragment() {
 
     private var dateTime = Calendar.getInstance()
 
-    private val categoryList: Observer<List<TransactionCategory>> = Observer { res ->
+    private val categoryList: Observer<List<Category>> = Observer { res ->
         if(res != null) {
             s_category.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, res.map { l -> l.name })
         }

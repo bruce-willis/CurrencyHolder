@@ -16,8 +16,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.Balance
-import com.example.beardie.currencyholder.data.model.Transaction
+import com.example.beardie.currencyholder.data.local.entity.Balance
+import com.example.beardie.currencyholder.data.local.entity.Transaction
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.FinanceViewModel

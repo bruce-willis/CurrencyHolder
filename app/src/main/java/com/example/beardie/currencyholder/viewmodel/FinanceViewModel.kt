@@ -4,8 +4,8 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
-import com.example.beardie.currencyholder.data.BalanceRepository
-import com.example.beardie.currencyholder.data.TransactionRepository
+import com.example.beardie.currencyholder.data.repository.BalanceRepository
+import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.domain.SummaryInteractor
 import javax.inject.Inject
 

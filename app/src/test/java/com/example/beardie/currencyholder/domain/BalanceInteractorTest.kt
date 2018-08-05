@@ -1,9 +1,9 @@
 package com.example.beardie.currencyholder.domain
 
-import com.example.beardie.currencyholder.data.BalanceRepository
-import com.example.beardie.currencyholder.data.ExchangeRepository
-import com.example.beardie.currencyholder.data.HardcodeValues
-import com.example.beardie.currencyholder.data.TransactionRepository
+import com.example.beardie.currencyholder.data.repository.BalanceRepository
+import com.example.beardie.currencyholder.data.repository.ExchangeRepository
+import com.example.beardie.currencyholder.data.local.db.SeedDatabase
+import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.data.model.FinanceCurrency
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,18 +25,18 @@ class BalanceInteractorTest {
                 FinanceCurrency("2", "$", "Dollars", "USD", "")
         )
 
-        val c0 = HardcodeValues.transactions.sumByDouble { t ->
+        val c0 = SeedDatabase.transactions.sumByDouble { t ->
             if (t.currency == currency[0])
                 t.count
             else
-                t.count * HardcodeValues.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
+                t.count * SeedDatabase.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
         }
 
-        val c1 = HardcodeValues.transactions.sumByDouble { t ->
+        val c1 = SeedDatabase.transactions.sumByDouble { t ->
             if (t.currency == currency[1])
                 t.count
             else
-                t.count * HardcodeValues.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
+                t.count * SeedDatabase.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
         }
 
         assert(balanceInteractor.getSumTransaction(currency[0])  == c0)

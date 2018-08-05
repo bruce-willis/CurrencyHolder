@@ -1,14 +1,14 @@
 package com.example.beardie.currencyholder.domain
 
-import com.example.beardie.currencyholder.data.BalanceRepository
-import com.example.beardie.currencyholder.data.ExchangeRepository
-import com.example.beardie.currencyholder.data.HardcodeValues
-import com.example.beardie.currencyholder.data.TransactionRepository
+import com.example.beardie.currencyholder.data.repository.BalanceRepository
+import com.example.beardie.currencyholder.data.repository.ExchangeRepository
+import com.example.beardie.currencyholder.data.local.db.SeedDatabase
+import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.data.enum.TypeCategoryEnum
-import com.example.beardie.currencyholder.data.model.Balance
+import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.model.FinanceCurrency
-import com.example.beardie.currencyholder.data.model.Transaction
-import com.example.beardie.currencyholder.data.model.TransactionCategory
+import com.example.beardie.currencyholder.data.local.entity.Transaction
+import com.example.beardie.currencyholder.data.local.entity.Category
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +22,7 @@ class BalanceInteractor @Inject constructor(
         private val exchangeRepository: ExchangeRepository
 ) {
 
-    fun addTransactions(amount: Double, balance: Balance, currency: FinanceCurrency, date: Date, category: TransactionCategory) {
+    fun addTransactions(amount: Double, balance: Balance, currency: FinanceCurrency, date: Date, category: Category) {
         val coef = if(category.type == TypeCategoryEnum.OUTGO) -1 else 1
         if(balance.currency != currency) {
             exchangeRepository.getExchangeRate(currency, balance.currency, object : Callback<ResponseBody> {
@@ -54,11 +54,11 @@ class BalanceInteractor @Inject constructor(
     }
 
     fun getSumTransaction(defaultCurrency: FinanceCurrency) : Double {
-        return HardcodeValues.transactions.sumByDouble { t ->
+        return SeedDatabase.transactions.sumByDouble { t ->
             if(t.currency ==  defaultCurrency)
                 t.count
             else
-                t.count * HardcodeValues.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
+                t.count * SeedDatabase.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
         }
     }
 }

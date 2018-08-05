@@ -1,18 +1,12 @@
 package com.example.beardie.currencyholder.ui.settings
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.Balance
-import com.example.beardie.currencyholder.data.model.FinanceCurrency
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.viewmodel.SettingsViewModel
 import dagger.android.support.DaggerFragment

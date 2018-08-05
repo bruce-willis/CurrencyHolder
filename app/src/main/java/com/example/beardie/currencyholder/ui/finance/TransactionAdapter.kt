@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.Transaction
+import com.example.beardie.currencyholder.data.local.entity.Transaction
 import java.text.SimpleDateFormat
 
 class TransactionAdapter(
