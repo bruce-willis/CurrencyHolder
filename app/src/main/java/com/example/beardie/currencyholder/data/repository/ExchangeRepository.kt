@@ -1,7 +1,8 @@
-package com.example.beardie.currencyholder.data
+package com.example.beardie.currencyholder.data.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.example.beardie.currencyholder.data.local.db.SeedDatabase
 import com.example.beardie.currencyholder.data.api.ExchangeApiService
 import com.example.beardie.currencyholder.data.model.ExchangeCurrency
 import com.example.beardie.currencyholder.data.model.FinanceCurrency
@@ -14,7 +15,7 @@ class ExchangeRepository @Inject constructor() {
 
     fun getAll() : LiveData<List<ExchangeCurrency>> {
         val exchangeCurrency = MutableLiveData<List<ExchangeCurrency>>()
-        exchangeCurrency.value = HardcodeValues.exchange
+        exchangeCurrency.value = SeedDatabase.exchange
         return exchangeCurrency
     }
 

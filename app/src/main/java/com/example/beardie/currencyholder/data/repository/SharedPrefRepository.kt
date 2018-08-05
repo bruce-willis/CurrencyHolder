@@ -1,7 +1,7 @@
-package com.example.beardie.currencyholder.data
+package com.example.beardie.currencyholder.data.repository
 
 import android.content.SharedPreferences
-import com.example.beardie.currencyholder.data.model.Balance
+import com.example.beardie.currencyholder.data.local.entity.Balance
 import javax.inject.Inject
 
 class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
