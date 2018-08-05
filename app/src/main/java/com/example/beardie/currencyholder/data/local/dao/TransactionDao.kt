@@ -10,4 +10,6 @@ interface TransactionDao : BaseDao<Transaction> {
     @Query("SELECT * FROM `transaction`")
     fun getAllTransactions(): LiveData<List<Transaction>>
 
+    @Query("SELECT * FROM `transaction` WHERE id = :id")
+    fun findByBalanceId(id: Long) : LiveData<List<Transaction>>
 }

@@ -9,4 +9,7 @@ import com.example.beardie.currencyholder.data.local.entity.Category
 interface CategoryDao : BaseDao<Category> {
     @Query("SELECT * FROM category")
     fun getAllCategories(): LiveData<List<Category>>
+
+    @Query("SELECT * FROM category WHERE transactionType = :transactionTypeId")
+    fun getCategoriesByType(transactionTypeId : Int) : LiveData<List<Category>>
 }

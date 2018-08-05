@@ -1,17 +1,17 @@
 package com.example.beardie.currencyholder.data.local.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
-import com.example.beardie.currencyholder.data.model.FinanceCurrency
+import android.arch.persistence.room.*
+import com.example.beardie.currencyholder.data.local.converter.DateConverter
+import com.example.beardie.currencyholder.data.model.Currency
 import java.util.*
 
 @Entity(tableName = "transaction")
 data class Transaction(
         @PrimaryKey(autoGenerate = true) val id: Long,
-        val count: Double,
-        @Ignore val balance: Balance,
-        @Ignore val currency: FinanceCurrency,
-        @Ignore val date : Date,
-        @Ignore val category: Category
+        val cost: Double,
+        val date : Date,
+        @ForeignKey(entity = Balance::class, parentColumns = ["id"], childColumns = ["balanceId"])
+        val balanceId: Long,
+        @ForeignKey(entity = Category::class, parentColumns = ["id"], childColumns = ["categoryId"])
+        val categoryId: Long
 )

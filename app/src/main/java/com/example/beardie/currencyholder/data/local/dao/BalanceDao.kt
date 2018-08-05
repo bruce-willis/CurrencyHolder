@@ -9,4 +9,10 @@ import com.example.beardie.currencyholder.data.local.entity.Balance
 interface BalanceDao : BaseDao<Balance> {
     @Query("SELECT * FROM balance")
     fun getAllBalances(): LiveData<List<Balance>>
+
+    @Query("SELECT * FROM balance")
+    fun getAllBalancesList(): List<Balance>
+
+    @Query("SELECT * FROM balance WHERE id = :id")
+    fun findById(id: Long) : LiveData<Balance>
 }
