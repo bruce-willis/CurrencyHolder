@@ -15,14 +15,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'currency_app_key'
-            keyPassword 'decoy9393'
-            storeFile file('/Users/beardie/keystore/android_currency.jks')
-            storePassword 'decoy9393'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'currency_app_key'
+//            keyPassword 'decoy9393'
+//            storeFile file('/Users/beardie/keystore/android_currency.jks')
+//            storePassword 'decoy9393'
+//        }
+//    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.beardie.currencyholder"
@@ -36,7 +36,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            // signingConfigs.config
+            lintOptions {
+                disable 'MissingTranslation'
+            }
         }
     }
 }
@@ -63,7 +66,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     // retrofit 2
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     // leak canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
