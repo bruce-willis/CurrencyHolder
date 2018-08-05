@@ -3,6 +3,7 @@ package com.example.beardie.currencyholder.di
 import android.app.Application
 import com.example.beardie.currencyholder.BaseApplication
 import com.example.beardie.currencyholder.di.module.AppModule
+import com.example.beardie.currencyholder.di.module.RoomModule
 import com.example.beardie.currencyholder.di.module.ViewModelModule
 import com.example.beardie.currencyholder.di.module.ViewModule
 import dagger.BindsInstance
@@ -17,14 +18,16 @@ import javax.inject.Singleton
             AndroidSupportInjectionModule::class,
             AppModule::class,
             ViewModule::class,
-            ViewModelModule::class
+            ViewModelModule::class,
+            RoomModule::class
         ]
 )
-interface AppComponent: AndroidInjector<BaseApplication> {
+interface AppComponent : AndroidInjector<BaseApplication> {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun create(app: Application):Builder
+        fun create(app: Application): Builder
+
         fun build(): AppComponent
     }
 }
