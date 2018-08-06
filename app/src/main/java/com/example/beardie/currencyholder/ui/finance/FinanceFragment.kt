@@ -10,14 +10,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.Balance
-import com.example.beardie.currencyholder.data.model.Transaction
+import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.FinanceViewModel
@@ -38,42 +38,40 @@ import javax.inject.Inject
 class FinanceFragment : DaggerFragment(),
         AdapterView.OnItemSelectedListener,
         AppBarLayout.OnOffsetChangedListener,
-        OnChartValueSelectedListener{
+        OnChartValueSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var financeViewModel : FinanceViewModel
+    private lateinit var financeViewModel: FinanceViewModel
 
-    private lateinit var transactionAdapter : TransactionAdapter
+    private lateinit var transactionAdapter: TransactionAdapter
 
-    private val changeBalance = Observer<Balance> { res ->
-        if (res !== null) {
-            if (res.balance < 0) {
+
+    private val changeBalance: Observer<BalanceWithTransactions> = Observer { res ->
+        if (res?.balance != null) {
+
+            if (res.balance!!.balance < 0) {
                 tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_red_dark))
             } else {
                 tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_green_dark))
             }
             tv_balance.text = String.format(getString(R.string.format_balance_text,
-                    res.balance,
-                    res.currency.symbol))
-        }
-    }
+                    res.balance?.balance,
+                    res.balance?.currency?.symbol))
 
-    private val changeTransaction: Observer<List<Transaction>> = Observer { res ->
-        if (res != null) {
             rv_transaction_list.adapter = transactionAdapter
-            transactionAdapter.transactions = res
+            transactionAdapter.transactions = res.transactions
             transactionAdapter.notifyDataSetChanged()
         }
     }
 
-    private val dataSet : Observer<PieDataSet> = Observer { res ->
-        if(res != null) {
-            val dataSet = financeViewModel.summary.value
+    private val dataSet: Observer<PieDataSet> = Observer { res ->
+        if (res != null) {
+            val dataSet = financeViewModel.summary?.value
             dataSet!!.sliceSpace = 8f
             dataSet.selectionShift = 8f
-            dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+            dataSet.colors = ColorTemplate.PASTEL_COLORS.union(ColorTemplate.JOYFUL_COLORS.asIterable()).toList()
             dataSet.setDrawValues(true)
             val data = PieData(dataSet)
             data.setValueFormatter(PercentFormatter())
@@ -103,10 +101,10 @@ class FinanceFragment : DaggerFragment(),
         financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
         appbar.addOnOffsetChangedListener(this)
 
-        s_balance_names.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, financeViewModel.balances.value!!.map { r -> r.name })
+        s_balance_names.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, financeViewModel.balances.map { it.name })
         s_balance_names.onItemSelectedListener = this
 
-        fab_add_transaction.setOnClickListener { view ->
+        fab_add_transaction.setOnClickListener {
             if (activity != null) {
                 (activity as Navigator).initToolbar(R.string.add_transaction_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
                 (activity as Navigator).navigateTo(AddTransactionFragment.newInstance(), null)
@@ -114,22 +112,37 @@ class FinanceFragment : DaggerFragment(),
         }
 
         transactionAdapter = TransactionAdapter(context!!)
-        rv_transaction_list.layoutManager = LinearLayoutManager(context)
+        rv_transaction_list.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
         rv_transaction_list.addItemDecoration(DividerItemDecoration(context, VERTICAL))
+        rv_transaction_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && fab_add_transaction.visibility == View.VISIBLE) {
+                    fab_add_transaction.hide()
+                } else if (dy < 0 && fab_add_transaction.visibility != View.VISIBLE) {
+                    fab_add_transaction.show()
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    fab_add_transaction.show()
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
         initChart()
     }
 
     override fun onStart() {
         super.onStart()
-        financeViewModel.balance.observe(this, changeBalance)
-        financeViewModel.transactions.observe(this, changeTransaction)
+        financeViewModel.balanceWithTransactions.observe(this, changeBalance)
         financeViewModel.summary.observe(this, dataSet)
     }
 
     override fun onStop() {
         super.onStop()
-        financeViewModel.balance.removeObservers(this)
-        financeViewModel.transactions.removeObservers(this)
+        financeViewModel.balanceWithTransactions.removeObservers(this)
         financeViewModel.summary.removeObservers(this)
     }
 
@@ -170,7 +183,7 @@ class FinanceFragment : DaggerFragment(),
         if (verticalOffset == 0) {
             (activity as AppCompatActivity).supportActionBar?.elevation = 0f
             rl_balance_view.elevation = 0f
-        } else if(verticalOffset == -appBarLayout.totalScrollRange) {
+        } else if (verticalOffset == -appBarLayout.totalScrollRange) {
             (activity as AppCompatActivity).supportActionBar?.elevation = 0f
             rl_balance_view.elevation = 0f
         } else {
@@ -180,7 +193,7 @@ class FinanceFragment : DaggerFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-        financeViewModel.currentBalance.value = financeViewModel.balances.value!![pos].id
+        financeViewModel.currentBalance.value = financeViewModel.balances[pos].id
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

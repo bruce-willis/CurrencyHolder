@@ -1,12 +1,13 @@
 package com.example.beardie.currencyholder.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
-import com.example.beardie.currencyholder.data.BalanceRepository
-import com.example.beardie.currencyholder.data.TransactionRepository
+import android.arch.lifecycle.*
+import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
+import com.example.beardie.currencyholder.data.repository.BalanceRepository
+import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.domain.SummaryInteractor
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import javax.inject.Inject
 
 class FinanceViewModel @Inject constructor(
@@ -16,20 +17,18 @@ class FinanceViewModel @Inject constructor(
         private val summaryInteractor: SummaryInteractor
 ) : AndroidViewModel(context) {
 
-    var currentBalance = MutableLiveData<String>()
+    var currentBalance = MutableLiveData<Long>()
         set(value) {
             currentBalance.value = value.value
         }
 
-    val balance = Transformations.switchMap(currentBalance) { id -> balanceRepository.findById(id)}
+    val balanceWithTransactions = Transformations.switchMap(currentBalance) { id -> balanceRepository.getBalanceWithTransactions(id) }
 
-    val balances by lazy { balanceRepository.getAll() }
+    val balances by lazy { balanceRepository.getAllList() }
 
-    val transactions = Transformations.switchMap(currentBalance) { id -> transactionRepository.filterByBalanceId(id) }
+    val summary = Transformations.switchMap(balanceWithTransactions) { btw -> summaryInteractor.getPieChartValues(btw) }
 
-    val summary = Transformations.switchMap(currentBalance) { summaryInteractor.getPieChartValues(balance.value?: balanceRepository.getAll().value!![0]) }
-
-    fun getShowLegend() : Boolean {
+    fun getShowLegend(): Boolean {
         return summaryInteractor.getShowLegend()
     }
 }
