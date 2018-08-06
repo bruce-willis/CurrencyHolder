@@ -10,6 +10,7 @@ import android.os.Build
 import com.example.beardie.currencyholder.BuildConfig
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
+import com.example.beardie.currencyholder.data.local.converter.PeriodConverter
 import com.example.beardie.currencyholder.data.local.converter.TransactionTypeConverter
 import com.example.beardie.currencyholder.data.local.dao.BalanceDao
 import com.example.beardie.currencyholder.data.local.dao.BalanceTransactionDao
@@ -27,7 +28,7 @@ private const val DATABASE_NAME = "currency-db"
     Category::class,
     Transaction::class], version = 1,
         exportSchema = false)
-@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class])
+@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class, PeriodConverter::class])
 abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun balanceDao(): BalanceDao
     abstract fun categoryDao(): CategoryDao
