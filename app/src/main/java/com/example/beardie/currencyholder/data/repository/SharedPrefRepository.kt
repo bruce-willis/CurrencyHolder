@@ -31,11 +31,11 @@ class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
     }
 
     fun setDefaultBalanace(balance : Balance) {
-        shared.edit().putString(DEFAULT_BALANCE, balance.id).apply()
+        shared.edit().putLong(DEFAULT_BALANCE, balance.id).apply()
     }
 
-    fun getDefaultBalanace() : String {
-        return shared.getString(DEFAULT_BALANCE, "")
+    fun getDefaultBalanace() : Long {
+        return shared.getLong(DEFAULT_BALANCE, 0)
     }
 
     fun setOnlyOutcomes(value : Boolean) {

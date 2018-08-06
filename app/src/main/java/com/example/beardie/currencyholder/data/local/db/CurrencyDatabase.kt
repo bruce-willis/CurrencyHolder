@@ -10,6 +10,7 @@ import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
 import com.example.beardie.currencyholder.data.local.converter.TransactionTypeConverter
 import com.example.beardie.currencyholder.data.local.dao.BalanceDao
+import com.example.beardie.currencyholder.data.local.dao.BalanceTransactionDao
 import com.example.beardie.currencyholder.data.local.dao.CategoryDao
 import com.example.beardie.currencyholder.data.local.dao.TransactionDao
 import com.example.beardie.currencyholder.data.local.entity.Balance
@@ -29,6 +30,7 @@ abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun balanceDao(): BalanceDao
     abstract fun categoryDao(): CategoryDao
     abstract fun transactionDao(): TransactionDao
+    abstract fun balanceTransactionDao(): BalanceTransactionDao
 
     // how to build db
     // https://github.com/googlesamples/android-sunflower/blob/master/app/src/main/java/com/google/samples/apps/sunflower/data/AppDatabase.kt#L39

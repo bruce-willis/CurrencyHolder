@@ -14,5 +14,5 @@ interface BalanceDao : BaseDao<Balance> {
     fun getAllBalancesList(): List<Balance>
 
     @Query("SELECT * FROM balance WHERE id = :id")
-    fun findById(id: Long) : LiveData<Balance>
+    fun findById(id: Long): LiveData<Balance>
 }

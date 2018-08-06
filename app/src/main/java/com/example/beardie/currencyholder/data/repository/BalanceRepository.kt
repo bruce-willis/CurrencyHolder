@@ -1,25 +1,22 @@
 package com.example.beardie.currencyholder.data.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import com.example.beardie.currencyholder.data.local.db.SeedDatabase
+import com.example.beardie.currencyholder.data.local.dao.BalanceDao
+import com.example.beardie.currencyholder.data.local.dao.BalanceTransactionDao
 import com.example.beardie.currencyholder.data.local.entity.Balance
+import com.example.beardie.currencyholder.data.local.entity.Transaction
 import javax.inject.Inject
 
-class BalanceRepository @Inject constructor() {
+class BalanceRepository @Inject constructor(private val balanceDao: BalanceDao, private val balanceTransactionDao: BalanceTransactionDao) {
 
-    fun getAll() : LiveData<List<Balance>> {
-        val balances = MutableLiveData<List<Balance>>()
-        balances.value = SeedDatabase.balances
-        return balances
-    }
+    fun getAll(): LiveData<List<Balance>> = balanceDao.getAllBalances()
 
-    fun findById(id : String): LiveData<Balance> {
-        val balance = MutableLiveData<Balance>()
-        balance.value = SeedDatabase.balances.find { b -> b.id == id }
-        return balance
-    }
+    fun getAllList() = balanceDao.getAllBalancesList()
 
-    fun setBalance(balance: Balance, amount : Double) {
-    }
+    fun findById(id: Long): LiveData<Balance> = balanceDao.findById(id)
+
+    fun getBalanceWithTransactions(id: Long) = balanceTransactionDao.getBalanceWithTransactions(id)
+
+    fun insertOperationAndUpdateAmount(transaction: Transaction, balance: Double, balanceId: Long) =
+            balanceTransactionDao.insertOperationAndUpdateAmount(transaction, balance, balanceId)
 }

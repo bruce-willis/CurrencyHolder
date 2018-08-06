@@ -23,4 +23,8 @@ class RoomModule {
     @Provides
     @Singleton
     fun provideTransactionDao(db: CurrencyDatabase) = db.transactionDao()
+
+    @Provides
+    @Singleton
+    fun provideBalanceTransactionDao(db: CurrencyDatabase) = db.balanceTransactionDao()
 }
