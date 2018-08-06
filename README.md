@@ -16,6 +16,7 @@
     @Entity(primaryKeys = ["id"]
     ```
 
+=======
 ## Used libraries
 
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
@@ -26,6 +27,7 @@
 * [Room](https://developer.android.com/topic/libraries/architecture/room)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 
 ## Used materials
 
@@ -61,3 +63,4 @@ private inline fun <reified T : Enum<T>> Int.toEnum(): T = enumValues<T>()[this]
 > Declaring the column info allows for the renaming of variables without implementing a database migration, as the column name would not change.
 [comment from google sample](https://github.com/googlesamples/android-sunflower/blob/master/app/src/main/java/com/google/samples/apps/sunflower/data/GardenPlanting.kt#L31)
 * 
+=======
