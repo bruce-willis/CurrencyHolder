@@ -6,6 +6,8 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import android.os.Build
+import com.example.beardie.currencyholder.BuildConfig
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
 import com.example.beardie.currencyholder.data.local.converter.TransactionTypeConverter
@@ -21,7 +23,7 @@ import java.util.concurrent.Executors
 private const val DATABASE_NAME = "currency-db"
 
 @Database(entities =
-    [Balance::class,
+[Balance::class,
     Category::class,
     Transaction::class], version = 1,
         exportSchema = false)
@@ -55,19 +57,11 @@ abstract class CurrencyDatabase : RoomDatabase() {
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
+
+                            if (BuildConfig.DEBUG)
                             // TODO: move to workManager
                             Executors.newSingleThreadScheduledExecutor().execute {
-                                // spread operator
-                                // https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs
-
-                                // TODO: delete if all ok with transaction
-                                // without transaction
-
-                                getInstance(context).balanceDao().insertAll(*SeedDatabase.balances)
-                                getInstance(context).categoryDao().insertAll(*SeedDatabase.category)
-                                getInstance(context).transactionDao().insertAll(*SeedDatabase.transactions)
-
-                                //insertData(getInstance(context))
+                                insertData(getInstance(context))
                             }
                         }
                     })
@@ -78,6 +72,8 @@ abstract class CurrencyDatabase : RoomDatabase() {
             database.runInTransaction {
                 // maybe better with apply/with/...?
                 database.run {
+                    // spread operator
+                    // https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs
                     balanceDao().insertAll(*SeedDatabase.balances)
                     categoryDao().insertAll(*SeedDatabase.category)
                     transactionDao().insertAll(*SeedDatabase.transactions)

@@ -17,6 +17,6 @@ class BalanceRepository @Inject constructor(private val balanceDao: BalanceDao, 
 
     fun getBalanceWithTransactions(id: Long) = balanceTransactionDao.getBalanceWithTransactions(id)
 
-    fun insertOperationAndUpdateAmount(transaction: Transaction, balance: Double, balanceId: Long) =
-            balanceTransactionDao.insertOperationAndUpdateAmount(transaction, balance, balanceId)
+    fun insertOperationAndUpdateAmount(transaction: Transaction, balanceId: Long) =
+            balanceTransactionDao.insertOperationAndUpdateAmount(transaction, balanceId)
 }

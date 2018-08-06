@@ -35,13 +35,13 @@ class BalanceInteractor @Inject constructor(
                         response.body()?.string()?.let {
                             val data = JSONObject(it)
                             val rate = data.getDouble("${currency.code}_${balance.currency.code}")
-                            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect() * rate, date = date), difference, balance.id)
+                            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect() * rate, date = date), balance.id)
                         }
                     }
                 })
             }
         } else {
-            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect(), date = date), difference, balance.id)
+            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect(), date = date), balance.id)
         }
     }
 

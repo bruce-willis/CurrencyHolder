@@ -18,11 +18,11 @@ class BaseApplication : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics())
+        //Fabric.with(this, Crashlytics())
         LeakCanary.install(this)
-        Thread.setDefaultUncaughtExceptionHandler { paramThread, paramThrowable ->
-            Crashlytics.logException(paramThrowable)
-        }
+//        Thread.setDefaultUncaughtExceptionHandler { paramThread, paramThrowable ->
+//            Crashlytics.logException(paramThrowable)
+//        }
 
     }
 }

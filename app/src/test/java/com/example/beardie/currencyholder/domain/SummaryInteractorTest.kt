@@ -21,11 +21,6 @@ class SummaryInteractorTest {
 
     val sharedPrefRepository = SharedPrefRepository(sharedPrefs)
 
-    val summaryInteractor : SummaryInteractor = SummaryInteractor(
-            sharedPrefRepository,
-            TransactionRepository(),
-            CategoryRepository())
-
     @Before
     @Throws(Exception::class)
     fun before() {

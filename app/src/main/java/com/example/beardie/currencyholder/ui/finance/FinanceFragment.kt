@@ -71,7 +71,7 @@ class FinanceFragment : DaggerFragment(),
             val dataSet = financeViewModel.summary?.value
             dataSet!!.sliceSpace = 8f
             dataSet.selectionShift = 8f
-            dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+            dataSet.colors = ColorTemplate.PASTEL_COLORS.union(ColorTemplate.JOYFUL_COLORS.asIterable()).toList()
             dataSet.setDrawValues(true)
             val data = PieData(dataSet)
             data.setValueFormatter(PercentFormatter())
