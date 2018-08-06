@@ -16,6 +16,7 @@ import com.example.beardie.currencyholder.data.model.TransactionType
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.model.Period
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.TransactionViewModel
@@ -79,6 +80,8 @@ class AddTransactionFragment : DaggerFragment() {
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
         }
+
+        s_period.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, Period.values().toList().map { p -> p.title })
         initSaveButton()
     }
 
@@ -121,11 +124,13 @@ class AddTransactionFragment : DaggerFragment() {
     }
 
     private fun saveTransaction(){
+        val t =
         transactionViewModel.addTransaction(et_amount.text.toString().toDouble(),
                 transactionViewModel.balances.value?.find { l -> l.name == s_balance.adapter.getItem(s_balance.selectedItemPosition) }!!,
                 transactionViewModel.currency.value?.find { c -> c.code == s_currency.adapter.getItem(s_currency.selectedItemPosition) }!!,
                 dateTime.time,
-                transactionViewModel.categories.value?.find { c -> c.name == s_category.adapter.getItem(s_category.selectedItemPosition) }!!)
+                transactionViewModel.categories.value?.find { c -> c.name == s_category.adapter.getItem(s_category.selectedItemPosition) }!!,
+                Period.values().find {p -> p.title == s_period.adapter.getItem(s_period.selectedItemPosition) }!! )
         (activity!! as Navigator).navigateBack()
     }
 }

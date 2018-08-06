@@ -10,6 +10,7 @@ import com.example.beardie.currencyholder.data.repository.CurrencyRepository
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.model.Period
 import com.example.beardie.currencyholder.domain.BalanceInteractor
 import java.util.*
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class TransactionViewModel @Inject constructor(
         categoryRepository.filterByType(id)
     }?: categoryRepository.getAll()
 
-    fun addTransaction(amount: Double, balance: Balance, currency: Currency, date: Date, category: Category) {
-        balanceInteractor.addTransaction(amount, balance, currency, date, category)
+    fun addTransaction(amount: Double, balance: Balance, currency: Currency, date: Date, category: Category, period: Period = Period.None) {
+        balanceInteractor.addTransaction(amount, balance, currency, date, category, period)
     }
 }
