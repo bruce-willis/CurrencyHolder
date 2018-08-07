@@ -1,7 +1,7 @@
-package com.example.beardie.currencyholder.data
+package com.example.beardie.currencyholder.data.repository
 
 import android.content.SharedPreferences
-import com.example.beardie.currencyholder.data.model.Balance
+import com.example.beardie.currencyholder.data.local.entity.Balance
 import javax.inject.Inject
 
 class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
@@ -31,11 +31,11 @@ class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
     }
 
     fun setDefaultBalanace(balance : Balance) {
-        shared.edit().putString(DEFAULT_BALANCE, balance.id).apply()
+        shared.edit().putLong(DEFAULT_BALANCE, balance.id).apply()
     }
 
-    fun getDefaultBalanace() : String {
-        return shared.getString(DEFAULT_BALANCE, "")
+    fun getDefaultBalanace() : Long {
+        return shared.getLong(DEFAULT_BALANCE, 0)
     }
 
     fun setOnlyOutcomes(value : Boolean) {

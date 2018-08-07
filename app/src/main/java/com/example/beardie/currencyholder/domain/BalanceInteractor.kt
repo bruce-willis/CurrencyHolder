@@ -1,20 +1,21 @@
 package com.example.beardie.currencyholder.domain
 
-import com.example.beardie.currencyholder.data.BalanceRepository
-import com.example.beardie.currencyholder.data.ExchangeRepository
-import com.example.beardie.currencyholder.data.HardcodeValues
-import com.example.beardie.currencyholder.data.TransactionRepository
-import com.example.beardie.currencyholder.data.enum.TypeCategoryEnum
-import com.example.beardie.currencyholder.data.enum.TypeOperationEnum
-import com.example.beardie.currencyholder.data.model.Balance
-import com.example.beardie.currencyholder.data.model.FinanceCurrency
-import com.example.beardie.currencyholder.data.model.Transaction
-import com.example.beardie.currencyholder.data.model.TransactionCategory
+import com.example.beardie.currencyholder.data.local.entity.Balance
+import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.local.entity.Transaction
+import com.example.beardie.currencyholder.data.model.Currency
+import com.example.beardie.currencyholder.data.model.Period
+import com.example.beardie.currencyholder.data.repository.BalanceRepository
+import com.example.beardie.currencyholder.data.repository.ExchangeRepository
+import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class BalanceInteractor @Inject constructor(
@@ -23,45 +24,30 @@ class BalanceInteractor @Inject constructor(
         private val exchangeRepository: ExchangeRepository
 ) {
 
-    fun addTransactions(amount: Double, balance: Balance, currency: FinanceCurrency, date: Date, category: TransactionCategory) {
-        val coef = if(category.type == TypeCategoryEnum.OUTGO) -1 else 1
-        if(balance.currency != currency) {
-            exchangeRepository.getExchangeRate(currency, balance.currency, object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    transactionRepository.add(Transaction(UUID.randomUUID().toString(),
-                            TypeOperationEnum.SUM,
-                            coef * amount * response.body()?.string().toString().substringAfterLast(":").dropLast(2).toDouble(),
-                            balance,
-                            balance.currency,
-                            date,
-                            category))
-                }
+    fun addTransaction(difference: Double, balance: Balance, currency: Currency, date: Date, category: Category, period: Period = Period.None) {
+        if (balance.currency != currency) {
+            Executors.newSingleThreadScheduledExecutor().execute {
+                exchangeRepository.getExchangeRate(currency, balance.currency, object : Callback<ResponseBody> {
+                    override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                        Timber.e(t)
+                    }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                }
-            })
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        response.body()?.string()?.let {
+                            val data = JSONObject(it)
+                            val rate = data.getDouble("${currency.code}_${balance.currency.code}")
+                            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect() * rate, date = date, period = period), balance.id)
+                        }
+                    }
+                })
+            }
         } else {
-            transactionRepository.add(Transaction(UUID.randomUUID().toString(),
-                    TypeOperationEnum.SUM,
-                    coef * amount,
-                    balance,
-                    currency,
-                    date,
-                    category))
+            balanceRepository.insertOperationAndUpdateAmount(Transaction(balanceId = balance.id, categoryId = category.id, cost = difference * category.transactionType.effect(), date = date, period = period), balance.id)
         }
-
     }
 
-    private fun calculateBalance(balance: Balance, amount: Double) {
-        balanceRepository.setBalance(balance, amount)
-    }
-
-    fun getSumTransaction(defaultCurrency: FinanceCurrency) : Double {
-        return HardcodeValues.transactions.sumByDouble { t ->
-            if(t.currency ==  defaultCurrency)
-                t.count
-            else
-                t.count * HardcodeValues.exchange.find { exp -> exp.fromCurrency == t.currency }?.coef!!
-        }
+    fun getSumTransaction(balanceId: Long): Double {
+        return balanceRepository.getBalanceWithTransactions(balanceId).value?.transactions?.sumByDouble { it.transaction!!.cost * it.category()!!.transactionType.effect() }
+                ?: 0.0
     }
 }

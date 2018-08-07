@@ -2,7 +2,7 @@ package com.example.beardie.currencyholder.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import com.example.beardie.currencyholder.data.SharedPrefRepository
+import com.example.beardie.currencyholder.data.repository.SharedPrefRepository
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
