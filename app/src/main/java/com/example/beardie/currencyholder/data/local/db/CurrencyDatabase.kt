@@ -7,6 +7,8 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import android.os.Build
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.beardie.currencyholder.BuildConfig
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
@@ -19,6 +21,7 @@ import com.example.beardie.currencyholder.data.local.dao.TransactionDao
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.entity.Category
 import com.example.beardie.currencyholder.data.local.entity.Transaction
+import com.example.beardie.currencyholder.workers.SeedDatabaseWorker
 import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "currency-db"
@@ -58,28 +61,11 @@ abstract class CurrencyDatabase : RoomDatabase() {
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-
-                            if (BuildConfig.DEBUG)
-                            // TODO: move to workManager
-                            Executors.newSingleThreadScheduledExecutor().execute {
-                                insertData(getInstance(context))
-                            }
+                            val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
+                            WorkManager.getInstance().enqueue(request)
                         }
                     })
                     .build()
-        }
-
-        private fun insertData(database: CurrencyDatabase) {
-            database.runInTransaction {
-                // maybe better with apply/with/...?
-                database.run {
-                    // spread operator
-                    // https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs
-                    balanceDao().insertAll(*SeedDatabase.balances)
-                    categoryDao().insertAll(*SeedDatabase.category)
-                    transactionDao().insertAll(*SeedDatabase.transactions)
-                }
-            }
         }
     }
 }
