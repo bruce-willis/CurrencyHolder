@@ -29,7 +29,7 @@ class BalanceInteractor @Inject constructor(
             Executors.newSingleThreadScheduledExecutor().execute {
                 exchangeRepository.getExchangeRate(currency, balance.currency, object : Callback<ResponseBody> {
                     override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                        Timber.e(t)
+                        Timber.e(t, "Unable to get current rate")
                     }
 
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
