@@ -12,17 +12,17 @@ import dagger.android.ContributesAndroidInjector
 abstract class ViewModule {
 
     @ContributesAndroidInjector
-    abstract fun financeActivity() : FinanceActivity
+    abstract fun financeActivity(): FinanceActivity
 
     @ContributesAndroidInjector
-    abstract fun financeFragment() : FinanceFragment
+    abstract fun financeFragment(): FinanceFragment
 
     @ContributesAndroidInjector
-    abstract fun settingsFragment() : SettingsFragment
+    abstract fun settingsFragment(): SettingsFragment
 
     @ContributesAndroidInjector
-    abstract fun aboutFragment() : AboutFragment
+    abstract fun aboutFragment(): AboutFragment
 
     @ContributesAndroidInjector
-    abstract fun addTransactionFragment() : AddTransactionFragment
+    abstract fun addTransactionFragment(): AddTransactionFragment
 }

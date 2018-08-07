@@ -1,11 +1,9 @@
 package com.example.beardie.currencyholder
 
-import com.crashlytics.android.Crashlytics
 import com.example.beardie.currencyholder.di.DaggerAppComponent
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
 
 
 class BaseApplication : DaggerApplication() {

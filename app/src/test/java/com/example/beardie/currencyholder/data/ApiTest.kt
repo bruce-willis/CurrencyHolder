@@ -2,15 +2,11 @@ package com.example.beardie.currencyholder.data
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.beardie.currencyholder.data.api.ExchangeApiService
-import com.example.beardie.currencyholder.data.local.entity.Transaction
-import okhttp3.Dispatcher
-import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.Okio
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.core.IsNull.notNullValue
 import org.json.JSONObject
 import org.junit.*
 import org.junit.runner.RunWith
@@ -19,10 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import timber.log.Timber
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
 
 @RunWith(JUnit4::class)
 class ApiTest {
@@ -59,13 +52,15 @@ class ApiTest {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 latch.countDown()
             }
+
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 response.body()?.string()?.let {
                     val data = JSONObject(it)
                     rate = data.getDouble("RUB_USD")
                     latch.countDown()
                 }
-            }})
+            }
+        })
         val request = mockWebServer.takeRequest()
         latch.await()
         Assert.assertThat(request.path, `is`("/api/v6/convert?q=RUB_USD&compact=ultra"))

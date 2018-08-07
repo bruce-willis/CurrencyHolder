@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CategoryRepository @Inject constructor(private val categoryDao: CategoryDao) {
 
-    fun getAll() : LiveData<List<Category>> = categoryDao.getAllCategories()
+    fun getAll(): LiveData<List<Category>> = categoryDao.getAllCategories()
 
-    fun filterByType(typeId : Int) : LiveData<List<Category>> = categoryDao.getCategoriesByType(typeId)
+    fun filterByType(typeId: Int): LiveData<List<Category>> = categoryDao.getCategoriesByType(typeId)
 }

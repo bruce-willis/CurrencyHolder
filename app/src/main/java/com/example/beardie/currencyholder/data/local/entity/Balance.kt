@@ -2,7 +2,6 @@ package com.example.beardie.currencyholder.data.local.entity
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import com.example.beardie.currencyholder.data.model.Currency
 

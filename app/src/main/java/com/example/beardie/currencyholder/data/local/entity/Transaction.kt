@@ -22,5 +22,6 @@ data class Transaction(
         @ColumnInfo(name = "period") val period: Period
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") var id: Long = 0
+    @ColumnInfo(name = "id")
+    var id: Long = 0
 }

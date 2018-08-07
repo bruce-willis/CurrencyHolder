@@ -14,7 +14,7 @@ class SettingsViewModel @Inject constructor(
         sprefRepository.setOnlyOutcomes(value)
     }
 
-    fun getSummaryBoolean() : Boolean {
+    fun getSummaryBoolean(): Boolean {
         return sprefRepository.getOnlyOutcomes()
     }
 
@@ -22,7 +22,7 @@ class SettingsViewModel @Inject constructor(
         sprefRepository.setShowlegend(value)
     }
 
-    fun getShowLegend() : Boolean {
+    fun getShowLegend(): Boolean {
         return sprefRepository.getShowlegend()
     }
 }

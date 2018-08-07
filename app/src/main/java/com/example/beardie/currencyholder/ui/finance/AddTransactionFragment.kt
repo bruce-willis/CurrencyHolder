@@ -12,11 +12,11 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.TransactionType
 import com.example.beardie.currencyholder.data.local.entity.Balance
-import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.model.Period
+import com.example.beardie.currencyholder.data.model.TransactionType
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.TransactionViewModel

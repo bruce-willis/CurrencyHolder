@@ -1,13 +1,12 @@
 package com.example.beardie.currencyholder.viewmodel
 
 import android.app.Application
-import android.arch.lifecycle.*
-import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
+import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import com.example.beardie.currencyholder.data.repository.BalanceRepository
 import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.domain.SummaryInteractor
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import javax.inject.Inject
 
 class FinanceViewModel @Inject constructor(

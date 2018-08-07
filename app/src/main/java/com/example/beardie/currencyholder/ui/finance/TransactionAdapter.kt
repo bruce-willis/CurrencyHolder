@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.local.entity.Transaction
-import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
 import com.example.beardie.currencyholder.data.local.relation.TransactionWithCategory
 import java.text.SimpleDateFormat
 
@@ -16,7 +14,7 @@ class TransactionAdapter(
         private val context: Context
 ) : RecyclerView.Adapter<TransactionViewHolder>() {
 
-    var transactions : List<TransactionWithCategory> = emptyList()
+    var transactions: List<TransactionWithCategory> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): TransactionViewHolder {
         return TransactionViewHolder(LayoutInflater.from(context).inflate(R.layout.transaction_list_item, parent, false))
@@ -32,7 +30,7 @@ class TransactionAdapter(
 
         val transaction = transactions[pos].transaction
         transaction?.let {
-            if(transaction.cost >= 0) {
+            if (transaction.cost >= 0) {
                 holder.amount.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
                 holder.amount.setText("+" + String.format("%.2f", transaction.cost))
             } else {

@@ -4,7 +4,7 @@ import androidx.work.Worker
 import com.example.beardie.currencyholder.data.local.db.CurrencyDatabase
 import com.example.beardie.currencyholder.data.local.entity.Transaction
 
-class PeriodicWorker: Worker() {
+class PeriodicWorker : Worker() {
     companion object {
         internal val TAG = "PeriodicWorker"
     }

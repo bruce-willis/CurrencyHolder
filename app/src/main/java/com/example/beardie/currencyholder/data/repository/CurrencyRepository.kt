@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor() {
 
-    fun getAll() : LiveData<List<Currency>> {
+    fun getAll(): LiveData<List<Currency>> {
         val currencyList = MutableLiveData<List<Currency>>()
         currencyList.value = enumValues<Currency>().toList()
         return currencyList

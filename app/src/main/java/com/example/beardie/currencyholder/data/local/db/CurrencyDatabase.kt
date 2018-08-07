@@ -6,10 +6,8 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import android.os.Build
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.beardie.currencyholder.BuildConfig
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
 import com.example.beardie.currencyholder.data.local.converter.PeriodConverter
@@ -21,8 +19,7 @@ import com.example.beardie.currencyholder.data.local.dao.TransactionDao
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.entity.Category
 import com.example.beardie.currencyholder.data.local.entity.Transaction
-import com.example.beardie.currencyholder.workers.SeedDatabaseWorker
-import java.util.concurrent.Executors
+import com.example.beardie.currencyholder.worker.SeedDatabaseWorker
 
 private const val DATABASE_NAME = "currency-db"
 

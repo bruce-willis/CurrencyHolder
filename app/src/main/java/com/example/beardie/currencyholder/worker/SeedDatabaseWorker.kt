@@ -1,4 +1,4 @@
-package com.example.beardie.currencyholder.workers
+package com.example.beardie.currencyholder.worker
 
 import androidx.work.Worker
 import com.example.beardie.currencyholder.data.local.db.CurrencyDatabase

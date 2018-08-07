@@ -27,7 +27,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
         FragmentManager.OnBackStackChangedListener,
         Navigator {
 
-    private lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
         toggle.isDrawerIndicatorEnabled = true
         dl_view.addDrawerListener(toggle)
         toggle.syncState()
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             initToolbar(R.string.finance_toolbar_title, 4f)
             supportFragmentManager.beginTransaction().add(R.id.fl_finance_frame, FinanceFragment.newInstance()).commit()
         }
@@ -60,7 +60,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
     }
 
     override fun onBackStackChanged() {
-        if(supportFragmentManager.backStackEntryCount > 0) {
+        if (supportFragmentManager.backStackEntryCount > 0) {
             toggle.isDrawerIndicatorEnabled = false
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -75,7 +75,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
         }
     }
 
-    override fun initToolbar(@StringRes title : Int, elevation : Float) {
+    override fun initToolbar(@StringRes title: Int, elevation: Float) {
         toolbar.setTitle(title)
         toolbar.elevation = elevation
     }
@@ -89,7 +89,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.action_settings -> {
                 initToolbar(R.string.settings_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
                 navigateTo(SettingsFragment.newInstance(), null)
@@ -103,10 +103,10 @@ class FinanceActivity : DaggerAppCompatActivity(),
     }
 
     override fun onBackPressed() {
-        if(dl_view != null && dl_view.isDrawerOpen(Gravity.START)) {
+        if (dl_view != null && dl_view.isDrawerOpen(Gravity.START)) {
             dl_view.closeDrawer(Gravity.START, true)
         }
-        if(supportFragmentManager.backStackEntryCount > 0) {
+        if (supportFragmentManager.backStackEntryCount > 0) {
             navigateBack()
         } else {
             super.onBackPressed()
