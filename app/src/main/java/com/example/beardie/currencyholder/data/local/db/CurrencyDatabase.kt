@@ -59,7 +59,7 @@ abstract class CurrencyDatabase : RoomDatabase() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
-                            WorkManager.getInstance().enqueue(request)
+                            WorkManager.getInstance(). enqueue(request)
                         }
                     })
                     .build()

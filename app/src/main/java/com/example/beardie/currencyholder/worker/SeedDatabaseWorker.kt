@@ -24,7 +24,7 @@ class SeedDatabaseWorker : Worker() {
             Worker.Result.SUCCESS
         } catch (ex: Exception) {
             Timber.e(ex, "Unable to populate database")
-            Worker.Result.FAILURE
+            Worker.Result.RETRY
         }
     }
 }

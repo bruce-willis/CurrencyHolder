@@ -1,6 +1,5 @@
 package com.example.beardie.currencyholder.ui.finance
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.NavigationView
@@ -10,17 +9,13 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.domain.PeriodicWorker
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.ui.about.AboutFragment
 import com.example.beardie.currencyholder.ui.settings.SettingsFragment
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_finance.*
 import kotlinx.android.synthetic.main.content_finance.*
-import java.util.concurrent.TimeUnit
 
 class FinanceActivity : DaggerAppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
@@ -35,7 +30,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
         setSupportActionBar(toolbar)
         supportFragmentManager.addOnBackStackChangedListener(this)
         nv_left_menu.setNavigationItemSelectedListener(this)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         toggle = ActionBarDrawerToggle(this, dl_view, toolbar, R.string.app_name, R.string.app_name)
         toggle.isDrawerIndicatorEnabled = true
         dl_view.addDrawerListener(toggle)
@@ -43,19 +38,6 @@ class FinanceActivity : DaggerAppCompatActivity(),
         if (savedInstanceState == null) {
             initToolbar(R.string.finance_toolbar_title, 4f)
             supportFragmentManager.beginTransaction().add(R.id.fl_finance_frame, FinanceFragment.newInstance()).commit()
-        }
-
-        WorkManager.getInstance().getStatusesByTag(PeriodicWorker.TAG).observeForever {
-            for (work in it!!) {
-                if (!work.state.isFinished) {
-                    return@observeForever
-                }
-            }
-            val periodicWorkRequest = PeriodicWorkRequest
-                    .Builder(PeriodicWorker::class.java, 15, TimeUnit.MINUTES)
-                    .addTag(PeriodicWorker.TAG)
-                    .build()
-            WorkManager.getInstance().enqueue(periodicWorkRequest)
         }
     }
 
