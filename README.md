@@ -26,8 +26,8 @@
 ## TODO
 
 * [ ] seed database at first run (problem with `s_balance_names.adapter`)
-* [ ] Repeat seeding if error
-* [ ] better support of periodic transaction
+* [x] Repeat seeding if error
+* [x] better support of periodic transaction
 * [ ] maybe get rid of `long id` in favour `name` field
 * [ ] Edit save values
 * [ ] Modify design (convert to Yandex style)
