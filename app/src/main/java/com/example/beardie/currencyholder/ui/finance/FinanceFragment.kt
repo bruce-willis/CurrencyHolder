@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.beardie.currencyholder.R
+import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
@@ -46,6 +47,12 @@ class FinanceFragment : DaggerFragment(),
     private lateinit var financeViewModel: FinanceViewModel
 
     private lateinit var transactionAdapter: TransactionAdapter
+
+    private val changeBalances: Observer<List<Balance>> = Observer { balances ->
+        if (balances != null && balances.isNotEmpty()) {
+            s_balance_names.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, balances.map { it.name })
+        }
+    }
 
 
     private val changeBalance: Observer<BalanceWithTransactions> = Observer { res ->
@@ -101,7 +108,7 @@ class FinanceFragment : DaggerFragment(),
         financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
         appbar.addOnOffsetChangedListener(this)
 
-        s_balance_names.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, financeViewModel.balances.map { it.name })
+
         s_balance_names.onItemSelectedListener = this
 
         fab_add_transaction.setOnClickListener {
@@ -136,12 +143,14 @@ class FinanceFragment : DaggerFragment(),
 
     override fun onStart() {
         super.onStart()
+        financeViewModel.balances.observe(this, changeBalances)
         financeViewModel.balanceWithTransactions.observe(this, changeBalance)
         financeViewModel.summary.observe(this, dataSet)
     }
 
     override fun onStop() {
         super.onStop()
+        financeViewModel.balances.removeObservers(this)
         financeViewModel.balanceWithTransactions.removeObservers(this)
         financeViewModel.summary.removeObservers(this)
     }
@@ -193,7 +202,7 @@ class FinanceFragment : DaggerFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-        financeViewModel.currentBalance.value = financeViewModel.balances[pos].id
+        financeViewModel.currentBalance.value = financeViewModel.balancesList[pos].id
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

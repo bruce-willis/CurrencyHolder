@@ -23,7 +23,9 @@ class FinanceViewModel @Inject constructor(
 
     val balanceWithTransactions = Transformations.switchMap(currentBalance) { id -> balanceRepository.getBalanceWithTransactions(id) }
 
-    val balances by lazy { balanceRepository.getAllList() }
+    val balances = balanceRepository.getAll()
+
+    val balancesList by lazy { balanceRepository.getAllList() }
 
     val summary = Transformations.switchMap(balanceWithTransactions) { btw -> summaryInteractor.getPieChartValues(btw) }
 
