@@ -12,11 +12,11 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.beardie.currencyholder.R
-import com.example.beardie.currencyholder.data.model.TransactionType
 import com.example.beardie.currencyholder.data.local.entity.Balance
-import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.model.Period
+import com.example.beardie.currencyholder.data.model.TransactionType
 import com.example.beardie.currencyholder.di.ViewModelFactory
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.TransactionViewModel
@@ -37,19 +37,19 @@ class AddTransactionFragment : DaggerFragment() {
     private var dateTime = Calendar.getInstance()
 
     private val categoryList: Observer<List<Category>> = Observer { res ->
-        if(res != null) {
+        if (res != null) {
             s_category.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, res.map { l -> l.name })
         }
     }
 
     private val balanceList: Observer<List<Balance>> = Observer { res ->
-        if(res != null) {
+        if (res != null) {
             s_balance.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, res.map { l -> l.name })
         }
     }
 
     private val currencyList: Observer<List<Currency>> = Observer { res ->
-        if(res != null) {
+        if (res != null) {
             s_currency.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, res.map { l -> l.code })
         }
     }
@@ -101,7 +101,7 @@ class AddTransactionFragment : DaggerFragment() {
 
     private fun initSaveButton() {
         btn_save.setOnClickListener {
-            if( transactionViewModel.balances.value?.find { l -> l.name == s_balance.adapter.getItem(s_balance.selectedItemPosition) }!!.currency.code != s_currency.adapter.getItem(s_currency.selectedItemPosition)) {
+            if (transactionViewModel.balances.value?.find { l -> l.name == s_balance.adapter.getItem(s_balance.selectedItemPosition) }!!.currency.code != s_currency.adapter.getItem(s_currency.selectedItemPosition)) {
                 AlertDialog.Builder(context).setMessage(R.string.convert_message)
                         .setCancelable(true)
                         .setPositiveButton("OK") { dialogInterface, i ->
@@ -123,14 +123,13 @@ class AddTransactionFragment : DaggerFragment() {
         }
     }
 
-    private fun saveTransaction(){
-        val t =
+    private fun saveTransaction() {
         transactionViewModel.addTransaction(et_amount.text.toString().toDouble(),
                 transactionViewModel.balances.value?.find { l -> l.name == s_balance.adapter.getItem(s_balance.selectedItemPosition) }!!,
                 transactionViewModel.currency.value?.find { c -> c.code == s_currency.adapter.getItem(s_currency.selectedItemPosition) }!!,
                 dateTime.time,
                 transactionViewModel.categories.value?.find { c -> c.name == s_category.adapter.getItem(s_category.selectedItemPosition) }!!,
-                Period.values().find {p -> p.title == s_period.adapter.getItem(s_period.selectedItemPosition) }!! )
+                Period.values().find { p -> p.title == s_period.adapter.getItem(s_period.selectedItemPosition) }!!)
         (activity!! as Navigator).navigateBack()
     }
 }

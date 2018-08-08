@@ -18,10 +18,10 @@ class SettingsFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var settingViewModel : SettingsViewModel
+    private lateinit var settingViewModel: SettingsViewModel
 
     companion object {
-        fun newInstance() : SettingsFragment {
+        fun newInstance(): SettingsFragment {
             return SettingsFragment()
         }
     }

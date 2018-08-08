@@ -1,6 +1,8 @@
 package com.example.beardie.currencyholder.data.model
 
-private const val SEC_IN_DAY : Long = 24 * 60 * 60
+import java.util.concurrent.TimeUnit
+
+private val SEC_IN_DAY: Long = TimeUnit.DAYS.toSeconds(1)
 
 enum class Period(
         val title: String,

@@ -13,7 +13,7 @@ import com.example.beardie.currencyholder.data.local.entity.Transaction
 class BalanceWithTransactions {
 
     @Embedded
-    var balance: Balance?= null
+    var balance: Balance? = null
 
     @Relation(parentColumn = "id", entityColumn = "balanceId", entity = Transaction::class)
     var transactions: List<TransactionWithCategory> = arrayListOf()

@@ -2,21 +2,43 @@
 
 ## Continuous Integration (dev branch)
 * CircleCI [![CircleCI](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev.svg?style=svg)](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev)
+* [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
+
+***
 
 ## Questions
 
 * ### Room codestyle:
-    * @TypeConverters for whole db class or only for data class
-    * primary key inside class
-    ```kotlin
-    @PrimaryKey(autoGenerate = true) val id: Long
-    ```
-    or inside entity attribute
-    ```kotlin
-    @Entity(primaryKeys = ["id"]
-    ```
+    * Codestyle:
+        * @TypeConverters for whole db class or only for data class
+        * primary key inside class
+        ```kotlin
+        @PrimaryKey(autoGenerate = true) val id: Long
+        ```
+        or inside entity attribute
+        ```kotlin
+        @Entity(primaryKeys = ["id"]
+        ```
+    * Relations or join
 
-=======
+***
+
+## TODO
+
+* [ ] seed database at first run (problem with `s_balance_names.adapter`)
+* [ ] Repeat seeding if error
+* [ ] better support of periodic transaction
+* [ ] maybe get rid of `long id` in favour `name` field
+* [ ] Edit save values
+* [ ] Modify design (convert to Yandex style)
+* [ ] design for tablets
+* [ ] unit tests
+* [ ] ui tests
+* [ ] release build
+* [ ] analytics
+
+***
+
 ## Used libraries
 
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
@@ -28,6 +50,8 @@
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+
+***
 
 ## Used materials
 
@@ -63,4 +87,4 @@ private inline fun <reified T : Enum<T>> Int.toEnum(): T = enumValues<T>()[this]
 > Declaring the column info allows for the renaming of variables without implementing a database migration, as the column name would not change.
 [comment from google sample](https://github.com/googlesamples/android-sunflower/blob/master/app/src/main/java/com/google/samples/apps/sunflower/data/GardenPlanting.kt#L31)
 * 
-=======
+

@@ -14,15 +14,15 @@ internal abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(FinanceViewModel::class)
-    abstract fun bindFinanceViewModel(viewModel : FinanceViewModel) : ViewModel
+    abstract fun bindFinanceViewModel(viewModel: FinanceViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
-    abstract fun bindSettingsViewModel(view : SettingsViewModel) : ViewModel
+    abstract fun bindSettingsViewModel(view: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(TransactionViewModel::class)
-    abstract fun bindTransactionViewModel(view : TransactionViewModel) : ViewModel
+    abstract fun bindTransactionViewModel(view: TransactionViewModel): ViewModel
 }

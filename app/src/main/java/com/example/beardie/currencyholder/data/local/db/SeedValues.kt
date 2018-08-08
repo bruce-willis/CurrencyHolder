@@ -9,7 +9,7 @@ import com.example.beardie.currencyholder.data.model.Period
 import com.example.beardie.currencyholder.data.model.TransactionType
 import java.util.*
 
-object SeedDatabase {
+object SeedValues {
     var category = arrayOf(
             Category(1, "Зарплата", TransactionType.INCOME, Color.GREEN),
             Category(2, "Стипендия", TransactionType.INCOME, Color.GREEN),
