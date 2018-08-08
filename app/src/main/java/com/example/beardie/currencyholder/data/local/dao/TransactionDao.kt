@@ -12,7 +12,4 @@ interface TransactionDao : BaseDao<Transaction> {
 
     @Query("SELECT * FROM `transaction` WHERE balanceId = :id")
     fun getTransactionsForBalance(id: Long): LiveData<List<Transaction>>
-
-    @Query("SELECT * FROM `transaction` WHERE period != 0")
-    fun getRepeatedTransactions(): List<Transaction>
 }

@@ -18,9 +18,8 @@ data class Transaction(
         @ForeignKey(entity = Balance::class, parentColumns = ["id"], childColumns = ["balanceId"], deferred = true)
         @ColumnInfo(name = "balanceId") val balanceId: Long,
         @ForeignKey(entity = Category::class, parentColumns = ["id"], childColumns = ["categoryId"], deferred = true)
-        @ColumnInfo(name = "categoryId") val categoryId: Long,
-        @ColumnInfo(name = "period") val period: Period
-) {
+        @ColumnInfo(name = "categoryId") val categoryId: Long)
+{
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long = 0

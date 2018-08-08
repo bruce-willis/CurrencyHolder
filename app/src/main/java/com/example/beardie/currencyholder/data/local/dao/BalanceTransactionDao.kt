@@ -29,8 +29,8 @@ interface BalanceTransactionDao {
     fun insertTransaction(transaction: Transaction)
 
     @android.arch.persistence.room.Transaction
-    fun insertOperationAndUpdateAmount(transaction: Transaction, balanceId: Long) {
+    fun insertOperationAndUpdateAmount(transaction: Transaction) {
         insertTransaction(transaction)
-        updateBalance(transaction.cost, balanceId)
+        updateBalance(transaction.cost, transaction.balanceId)
     }
 }
