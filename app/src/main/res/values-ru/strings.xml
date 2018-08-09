@@ -4,7 +4,7 @@
     <string name="settings_toolbar_title">Настройки</string>
     <string name="about_toolbar_title">О приложении</string>
     <string name="add_transaction_toolbar_title">Добавить транзакцию</string>
-    <string name="title_no_transactions">Кто то украл ваши транзакции</string>
+    <string name="title_no_transactions">Здесь будут ваши транзакции</string>
     <string name="nav_header_title">Финансовый трекер</string>
     <string name="nav_header_description">Ваши деньги - наше приложение</string>
     <!-- format -->
@@ -34,4 +34,5 @@
 
     <string name="settings_switch_outgo">Показывать только траты</string>
     <string name="settings_switch_legend">Отображать легенду</string>
+    <string name="add_period">Выберите период</string>
 </resources>

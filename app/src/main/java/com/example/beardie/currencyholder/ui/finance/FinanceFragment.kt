@@ -67,9 +67,16 @@ class FinanceFragment : DaggerFragment(),
                     res.balance?.balance,
                     res.balance?.currency?.symbol))
 
-            rv_transaction_list.adapter = transactionAdapter
-            transactionAdapter.transactions = res.transactions
-            transactionAdapter.notifyDataSetChanged()
+            if (res.transactions.isNotEmpty()) {
+                rv_transaction_list.adapter = transactionAdapter
+                transactionAdapter.transactions = res.transactions
+                transactionAdapter.notifyDataSetChanged()
+                no_transactions_view.visibility = View.GONE
+                rv_transaction_list.visibility = View.VISIBLE
+            } else {
+                no_transactions_view.visibility = View.VISIBLE
+                rv_transaction_list.visibility = View.GONE
+            }
         }
     }
 
@@ -100,12 +107,14 @@ class FinanceFragment : DaggerFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_finance, container, false)
+        val view = inflater.inflate(R.layout.fragment_finance, container, false)
+        subscribeUI()
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
+
         appbar.addOnOffsetChangedListener(this)
 
 
@@ -141,18 +150,11 @@ class FinanceFragment : DaggerFragment(),
         initChart()
     }
 
-    override fun onStart() {
-        super.onStart()
-        financeViewModel.balances.observe(this, changeBalances)
-        financeViewModel.balanceWithTransactions.observe(this, changeBalance)
-        financeViewModel.summary.observe(this, dataSet)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        financeViewModel.balances.removeObservers(this)
-        financeViewModel.balanceWithTransactions.removeObservers(this)
-        financeViewModel.summary.removeObservers(this)
+    private fun subscribeUI() {
+        financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
+        financeViewModel.balances.observe(viewLifecycleOwner, changeBalances)
+        financeViewModel.balanceWithTransactions.observe(viewLifecycleOwner, changeBalance)
+        financeViewModel.summary.observe(viewLifecycleOwner, dataSet)
     }
 
     private fun initChart() {
