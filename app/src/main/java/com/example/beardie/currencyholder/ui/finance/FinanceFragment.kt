@@ -114,6 +114,7 @@ class FinanceFragment : DaggerFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as Navigator).initToolbar(R.string.finance_toolbar_title)
 
         appbar.addOnOffsetChangedListener(this)
 
@@ -122,8 +123,7 @@ class FinanceFragment : DaggerFragment(),
 
         fab_add_transaction.setOnClickListener {
             if (activity != null) {
-                (activity as Navigator).initToolbar(R.string.add_transaction_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
-                (activity as Navigator).navigateTo(AddTransactionFragment.newInstance(), null)
+                (activity as Navigator).navigateTo({ AddTransactionFragment.newInstance() }, true)
             }
         }
 

@@ -11,4 +11,10 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="MainTitleStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">cursive</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

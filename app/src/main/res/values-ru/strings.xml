@@ -34,5 +34,5 @@
 
     <string name="settings_switch_outgo">Показывать только траты</string>
     <string name="settings_switch_legend">Отображать легенду</string>
-    <string name="add_period">Выберите период</string>
+    <string name="choose_period">Выберите период</string>
 </resources>

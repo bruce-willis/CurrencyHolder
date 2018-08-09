@@ -44,4 +44,6 @@
             SOFTWARE.
     </string>
     <string name="choose_period">Choose transaction period</string>
+    <string name="dashboard_toolbar_title">Dashbord</string>
+    <string name="logo">logo</string>
 </resources>
