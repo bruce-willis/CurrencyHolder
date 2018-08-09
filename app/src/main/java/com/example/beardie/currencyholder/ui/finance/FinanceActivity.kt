@@ -6,9 +6,11 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.ui.about.AboutFragment
@@ -58,7 +60,14 @@ class FinanceActivity : DaggerAppCompatActivity(),
     }
 
     override fun initToolbar(@StringRes title: Int, elevation: Float) {
-        toolbar.setTitle(title)
+        if (title == R.string.finance_toolbar_title) {
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+            main_title.visibility = View.VISIBLE
+        } else {
+            main_title.visibility = View.GONE
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+            toolbar.setTitle(title)
+        }
         toolbar.elevation = elevation
     }
 
