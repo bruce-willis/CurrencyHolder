@@ -32,7 +32,6 @@ class FinanceActivity : DaggerAppCompatActivity(),
                 R.drawable.ic_menu_24dp
                 else
                 R.drawable.ic_arrow_back_24dp)
-            setDisplayShowTitleEnabled(false)
         }
 
         if (savedInstanceState == null) {
@@ -56,12 +55,12 @@ class FinanceActivity : DaggerAppCompatActivity(),
 
     override fun initToolbar(@StringRes title: Int, @DimenRes elevation: Int) {
         if (title == R.string.finance_toolbar_title) {
-            secondary_title.visibility = View.GONE
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             main_title.visibility = View.VISIBLE
         } else {
             main_title.visibility = View.GONE
-            secondary_title.visibility = View.VISIBLE
-            secondary_title.setText(title)
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+            supportActionBar?.setTitle(title)
         }
         toolbar.elevation = resources.getDimension(elevation)
     }

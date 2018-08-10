@@ -58,9 +58,9 @@ class FinanceFragment : DaggerFragment(),
         if (res?.balance != null) {
 
             if (res.balance!!.balance < 0) {
-                tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_red_dark))
+                tv_balance.setTextColor(ContextCompat.getColor(context!!, R.color.colorOutGo))
             } else {
-                tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_green_dark))
+                tv_balance.setTextColor(ContextCompat.getColor(context!!, R.color.colorIncome))
             }
             tv_balance.text = String.format(getString(R.string.format_balance_text,
                     res.balance?.balance,
