@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#ffc61b</color>
     <color name="colorAccent">#FFB3414B</color>
 
-    <color name="gradientStart">#ffd54f</color>
-    <color name="gradientEnd">#fee187</color>
+    <color name="gradientEnd">#ffd54f</color>
+    <color name="gradientStart">#fee187</color>
 
     <color name="colorIncome">#558b2f</color>
     <color name="colorOutGo">#d50000</color>

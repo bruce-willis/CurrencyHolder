@@ -20,6 +20,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finance)
         setSupportActionBar(toolbar)
