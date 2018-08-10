@@ -34,7 +34,7 @@
 
     <string name="settings_switch_outgo">Show only outgo</string>
     <string name="settings_switch_legend">Show chart legend</string>
-    <string name="mit_license">Copyright © 2018 Ilia Ilemkov
+    <string name="mit_license" translatable="false">Copyright © 2018 Ilia Ilemkov
             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
             FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -46,4 +46,6 @@
     <string name="choose_period">Choose transaction period</string>
     <string name="dashboard_toolbar_title">Dashbord</string>
     <string name="logo">logo</string>
+    <string name="edit_title">Edit</string>
+    <string name="delete_title">Delete</string>
 </resources>

@@ -12,10 +12,12 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
@@ -24,12 +26,9 @@ import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.FinanceViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_finance.*
@@ -38,7 +37,8 @@ import javax.inject.Inject
 
 class FinanceFragment : DaggerFragment(),
         AdapterView.OnItemSelectedListener,
-        AppBarLayout.OnOffsetChangedListener {
+        AppBarLayout.OnOffsetChangedListener,
+        View.OnCreateContextMenuListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -50,6 +50,26 @@ class FinanceFragment : DaggerFragment(),
     private val changeBalances: Observer<List<Balance>> = Observer { balances ->
         if (balances != null && balances.isNotEmpty()) {
             s_balance_names.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, balances.map { it.name })
+        }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val index = item.groupId
+        val transaction = transactionAdapter.transactions[index].transaction!!
+        val action = item.order
+
+
+
+        return when (item.order) {
+            0 -> {
+                true
+            }
+            1 -> {
+                Toast.makeText(context, transaction.toString() + action.toString(), Toast.LENGTH_SHORT).show()
+                financeViewModel.deleteTransaction(transaction)
+                true
+            }
+            else -> super.onContextItemSelected(item)
         }
     }
 
@@ -71,6 +91,7 @@ class FinanceFragment : DaggerFragment(),
                 rv_transaction_list.adapter = transactionAdapter
                 transactionAdapter.transactions = res.transactions
                 transactionAdapter.notifyDataSetChanged()
+                registerForContextMenu(rv_transaction_list)
                 no_transactions_view.visibility = View.GONE
                 rv_transaction_list.visibility = View.VISIBLE
             } else {
