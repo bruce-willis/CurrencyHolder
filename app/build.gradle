@@ -49,6 +49,7 @@ ext {
     room_version = "1.1.1"
     work_version = "1.0.0-alpha06"
     timber_version = "4.7.1"
+    appCenterSdk_version = '1.7.0'
 }
 
 dependencies {
@@ -102,6 +103,9 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-config:16.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    // appcenter
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdk_version}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdk_version}"
 
     /*
      * better debugging
