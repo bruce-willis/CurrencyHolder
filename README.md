@@ -1,7 +1,7 @@
 #  CurrencyHolder
 
 ## Continuous Integration (dev branch)
-* CircleCI [![CircleCI](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev.svg?style=svg)](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/dev)
+* CircleCI [![CircleCI](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/develop.svg?style=svg)](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/develop)
 * [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 ***
@@ -36,6 +36,7 @@
 * [ ] ui tests
 * [ ] release build
 * [ ] analytics
+* [ ] **better handling screen rotation**
 
 ***
 
@@ -88,3 +89,8 @@ private inline fun <reified T : Enum<T>> Int.toEnum(): T = enumValues<T>()[this]
 [comment from google sample](https://github.com/googlesamples/android-sunflower/blob/master/app/src/main/java/com/google/samples/apps/sunflower/data/GardenPlanting.kt#L31)
 * 
 
+## UI
+* [center `Toolbar` title](https://stackoverflow.com/a/38175403/6696410)
+* [set custom font to `Toolbar` title](https://stackoverflow.com/a/45895693/6696410)
+* [set style for `TextView` in code](https://stackoverflow.com/questions/3142067/android-set-style-in-code)
+* [Create a navigation drawer](https://developer.android.com/training/implementing-navigation/nav-drawer)

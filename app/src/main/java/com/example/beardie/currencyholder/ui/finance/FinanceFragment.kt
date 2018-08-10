@@ -38,8 +38,7 @@ import javax.inject.Inject
 
 class FinanceFragment : DaggerFragment(),
         AdapterView.OnItemSelectedListener,
-        AppBarLayout.OnOffsetChangedListener,
-        OnChartValueSelectedListener {
+        AppBarLayout.OnOffsetChangedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -59,33 +58,48 @@ class FinanceFragment : DaggerFragment(),
         if (res?.balance != null) {
 
             if (res.balance!!.balance < 0) {
-                tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_red_dark))
+                tv_balance.setTextColor(ContextCompat.getColor(context!!, R.color.colorOutGo))
             } else {
-                tv_balance.setTextColor(ContextCompat.getColor(context!!, android.R.color.holo_green_dark))
+                tv_balance.setTextColor(ContextCompat.getColor(context!!, R.color.colorIncome))
             }
             tv_balance.text = String.format(getString(R.string.format_balance_text,
                     res.balance?.balance,
                     res.balance?.currency?.symbol))
 
-            rv_transaction_list.adapter = transactionAdapter
-            transactionAdapter.transactions = res.transactions
-            transactionAdapter.notifyDataSetChanged()
+            if (res.transactions.isNotEmpty()) {
+                appbar.setExpanded(true, true)
+                rv_transaction_list.adapter = transactionAdapter
+                transactionAdapter.transactions = res.transactions
+                transactionAdapter.notifyDataSetChanged()
+                no_transactions_view.visibility = View.GONE
+                rv_transaction_list.visibility = View.VISIBLE
+            } else {
+                no_transactions_view.visibility = View.VISIBLE
+                rv_transaction_list.visibility = View.GONE
+                appbar.setExpanded(false, true)
+            }
         }
     }
 
     private val dataSet: Observer<PieDataSet> = Observer { res ->
         if (res != null) {
             val dataSet = financeViewModel.summary?.value
-            dataSet!!.sliceSpace = 8f
-            dataSet.selectionShift = 8f
-            dataSet.colors = ColorTemplate.PASTEL_COLORS.union(ColorTemplate.JOYFUL_COLORS.asIterable()).toList()
-            dataSet.setDrawValues(true)
-            val data = PieData(dataSet)
-            data.setValueFormatter(PercentFormatter())
-            data.setValueTextSize(12f)
-            data.setValueTextColor(Color.BLACK)
+
+            dataSet?.apply {
+                sliceSpace = 8f
+                selectionShift = 8f
+                colors = ColorTemplate.PASTEL_COLORS.union(ColorTemplate.JOYFUL_COLORS.asIterable()).toList()
+                setDrawValues(false)
+            }
+
+            val data = PieData(dataSet).apply {
+                setValueFormatter(PercentFormatter())
+                setValueTextSize(12f)
+                setValueTextColor(Color.BLACK)
+            }
+
             chart.data = data
-            chart.isHighlightPerTapEnabled = true
+            chart.isHighlightPerTapEnabled = false
             chart.highlightValues(null)
             chart.invalidate()
         }
@@ -100,12 +114,15 @@ class FinanceFragment : DaggerFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_finance, container, false)
+        val view = inflater.inflate(R.layout.fragment_finance, container, false)
+        subscribeUI()
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
+        (activity as Navigator).initToolbar(R.string.finance_toolbar_title)
+
         appbar.addOnOffsetChangedListener(this)
 
 
@@ -113,8 +130,7 @@ class FinanceFragment : DaggerFragment(),
 
         fab_add_transaction.setOnClickListener {
             if (activity != null) {
-                (activity as Navigator).initToolbar(R.string.add_transaction_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
-                (activity as Navigator).navigateTo(AddTransactionFragment.newInstance(), null)
+                (activity as Navigator).navigateTo({ AddTransactionFragment.newInstance() }, true)
             }
         }
 
@@ -141,25 +157,18 @@ class FinanceFragment : DaggerFragment(),
         initChart()
     }
 
-    override fun onStart() {
-        super.onStart()
-        financeViewModel.balances.observe(this, changeBalances)
-        financeViewModel.balanceWithTransactions.observe(this, changeBalance)
-        financeViewModel.summary.observe(this, dataSet)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        financeViewModel.balances.removeObservers(this)
-        financeViewModel.balanceWithTransactions.removeObservers(this)
-        financeViewModel.summary.removeObservers(this)
+    private fun subscribeUI() {
+        financeViewModel = ViewModelProviders.of(this, viewModelFactory).get(FinanceViewModel::class.java)
+        financeViewModel.balances.observe(viewLifecycleOwner, changeBalances)
+        financeViewModel.balanceWithTransactions.observe(viewLifecycleOwner, changeBalance)
+        financeViewModel.summary.observe(viewLifecycleOwner, dataSet)
     }
 
     private fun initChart() {
         chart.legend.isEnabled = financeViewModel.getShowLegend()
-        chart.legend.orientation = Legend.LegendOrientation.VERTICAL
-        chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
-        chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER
+        chart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         chart.description.isEnabled = false
 
         chart.isDrawHoleEnabled = true
@@ -169,24 +178,22 @@ class FinanceFragment : DaggerFragment(),
         chart.setTransparentCircleColor(Color.WHITE)
         chart.setTransparentCircleAlpha(90)
 
+        chart.setDrawEntryLabels(false)
+
         chart.setUsePercentValues(true)
-        chart.setExtraOffsets(8f, 8f, 8f, 8f)
+        chart.setExtraOffsets(8f, 0f, 8f, 0f)
         chart.dragDecelerationFrictionCoef = 0.95f
         chart.rotationAngle = 0f
-        chart.isRotationEnabled = true
-        chart.isHighlightPerTapEnabled = true
+        chart.isRotationEnabled = false
+        chart.isHighlightPerTapEnabled = false
         chart.animateY(1000, Easing.EasingOption.EaseInOutQuad)
+
         chart.setEntryLabelColor(Color.BLACK)
         chart.setEntryLabelTextSize(14f)
 
-        chart.setOnChartValueSelectedListener(this)
+        //chart.setOnChartValueSelectedListener(this)
     }
 
-    override fun onValueSelected(e: Entry?, h: Highlight?) {
-    }
-
-    override fun onNothingSelected() {
-    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         if (verticalOffset == 0) {
@@ -202,7 +209,9 @@ class FinanceFragment : DaggerFragment(),
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-        financeViewModel.currentBalance.value = financeViewModel.balancesList[pos].id
+        if (pos >= 0) {
+            financeViewModel.currentBalance.value = financeViewModel.balancesList[pos].id
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

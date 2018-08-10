@@ -1,14 +1,12 @@
 package com.example.beardie.currencyholder.ui.finance
 
 import android.os.Bundle
+import android.support.annotation.DimenRes
 import android.support.annotation.StringRes
-import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.view.Gravity
+import android.support.v4.view.GravityCompat
 import android.view.MenuItem
+import android.view.View
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.ui.about.AboutFragment
@@ -18,80 +16,95 @@ import kotlinx.android.synthetic.main.activity_finance.*
 import kotlinx.android.synthetic.main.content_finance.*
 
 class FinanceActivity : DaggerAppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener,
-        FragmentManager.OnBackStackChangedListener,
         Navigator {
 
-    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finance)
         setSupportActionBar(toolbar)
-        supportFragmentManager.addOnBackStackChangedListener(this)
-        nv_left_menu.setNavigationItemSelectedListener(this)
-        //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        toggle = ActionBarDrawerToggle(this, dl_view, toolbar, R.string.app_name, R.string.app_name)
-        toggle.isDrawerIndicatorEnabled = true
-        dl_view.addDrawerListener(toggle)
-        toggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener { onNavigationItemSelected(it) }
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(if (supportFragmentManager.backStackEntryCount == 0)
+                R.drawable.ic_menu_24dp
+                else
+                R.drawable.ic_arrow_back_24dp)
+        }
+
         if (savedInstanceState == null) {
-            initToolbar(R.string.finance_toolbar_title, 4f)
-            supportFragmentManager.beginTransaction().add(R.id.fl_finance_frame, FinanceFragment.newInstance()).commit()
+            nav_view.setCheckedItem(R.id.action_dashboard)
+            navigateTo({ FinanceFragment.newInstance() }, false, null)
         }
     }
 
-    override fun onBackStackChanged() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            toggle.isDrawerIndicatorEnabled = false
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            toolbar.setNavigationOnClickListener { onBackPressed() }
-            dl_view.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId != android.R.id.home) {
+            return super.onOptionsItemSelected(item)
+        }
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            drawer_layout.openDrawer(GravityCompat.START, true)
         } else {
-            initToolbar(R.string.finance_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
-            toggle = ActionBarDrawerToggle(this, dl_view, toolbar, R.string.app_name, R.string.app_name)
-            toggle.isDrawerIndicatorEnabled = true
-            dl_view.addDrawerListener(toggle)
-            dl_view.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            toggle.syncState()
-        }
-    }
-
-    override fun initToolbar(@StringRes title: Int, elevation: Float) {
-        toolbar.setTitle(title)
-        toolbar.elevation = elevation
-    }
-
-    override fun navigateTo(fragment: Fragment, transaction: String?) {
-        supportFragmentManager.beginTransaction().replace(R.id.fl_finance_frame, fragment).addToBackStack(transaction).commit()
-    }
-
-    override fun navigateBack() {
-        supportFragmentManager.popBackStack()
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> {
-                initToolbar(R.string.settings_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
-                navigateTo(SettingsFragment.newInstance(), null)
-            }
-            R.id.action_about -> {
-                initToolbar(R.string.about_toolbar_title, resources.getDimension(R.dimen.default_app_elevation))
-                navigateTo(AboutFragment.newInstance(), null)
-            }
+            navigateBack()
         }
         return true
     }
 
-    override fun onBackPressed() {
-        if (dl_view != null && dl_view.isDrawerOpen(Gravity.START)) {
-            dl_view.closeDrawer(Gravity.START, true)
-        }
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            navigateBack()
+
+    override fun initToolbar(@StringRes title: Int, @DimenRes elevation: Int) {
+        if (title == R.string.finance_toolbar_title) {
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+            main_title.visibility = View.VISIBLE
         } else {
-            super.onBackPressed()
+            main_title.visibility = View.GONE
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+            supportActionBar?.setTitle(title)
+        }
+        toolbar.elevation = resources.getDimension(elevation)
+    }
+
+    override fun navigateTo(fragmentInstance: () -> Fragment, addToBackStack: Boolean, transaction: String?) {
+        val builder = supportFragmentManager.beginTransaction().replace(R.id.fl_finance_frame, fragmentInstance())
+        if (addToBackStack) {
+            builder.addToBackStack(transaction)
+            supportActionBar?.apply {
+                setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp)
+            }
+        }
+        builder.commit()
+    }
+
+    override fun navigateBack() {
+        if (supportFragmentManager.backStackEntryCount == 1) {
+            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_24dp)
+        }
+        supportFragmentManager.popBackStack()
+    }
+
+    private fun onNavigationItemSelected(item: MenuItem): Boolean {
+        item.isChecked = true
+        when (item.itemId) {
+            R.id.action_dashboard -> {
+                navigateTo({ FinanceFragment.newInstance() }, false, null)
+            }
+            R.id.action_settings -> {
+                navigateTo({ SettingsFragment.newInstance() }, false, null)
+            }
+            R.id.action_about -> {
+                navigateTo({ AboutFragment.newInstance() }, false, null)
+            }
+        }
+        drawer_layout.closeDrawers()
+        return true
+    }
+
+    override fun onBackPressed() {
+        when {
+            drawer_layout != null && drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START, true)
+            supportFragmentManager.backStackEntryCount > 0 -> navigateBack()
+            else -> super.onBackPressed()
         }
     }
 

@@ -4,7 +4,7 @@
     <string name="settings_toolbar_title">Settings</string>
     <string name="about_toolbar_title">About</string>
     <string name="add_transaction_toolbar_title">Add transaction</string>
-    <string name="title_no_transactions">Someone stolen your transactions</string>
+    <string name="title_no_transactions">Here will be your transaction history</string>
     <string name="nav_header_title">Finance</string>
     <string name="nav_header_description">Your money - our application</string>
     <!-- format -->
@@ -43,5 +43,7 @@
             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
             SOFTWARE.
     </string>
-    <string name="add_period">Choose transaction period</string>
+    <string name="choose_period">Choose transaction period</string>
+    <string name="dashboard_toolbar_title">Dashbord</string>
+    <string name="logo">logo</string>
 </resources>

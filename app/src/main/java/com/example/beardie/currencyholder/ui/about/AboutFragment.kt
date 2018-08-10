@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.beardie.currencyholder.R
+import com.example.beardie.currencyholder.ui.Navigator
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_about.*
 import java.util.concurrent.ThreadLocalRandom
@@ -34,6 +35,7 @@ class AboutFragment : DaggerFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? Navigator)?.initToolbar(R.string.about_toolbar_title)
         button.setOnClickListener(this)
         btn_send_email.setOnClickListener { view ->
             val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(

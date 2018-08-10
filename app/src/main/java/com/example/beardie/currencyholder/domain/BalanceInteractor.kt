@@ -69,7 +69,7 @@ class BalanceInteractor @Inject constructor(
         val data = mapOf(COST_TAG to transaction.cost, BALANCE_ID_TAG to transaction.balanceId, CATEGORY_ID_TAG to transaction.categoryId)
                 .toWorkData()
         val request = PeriodicWorkRequestBuilder<PeriodicWorker>(
-                period.duration, TimeUnit.SECONDS, // repeated interval
+                period.repeatInDays, TimeUnit.DAYS, // repeated interval
                 PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS) // minimum allowed flex period of every interval period
                 .setInputData(data)
                 .build()

@@ -31,11 +31,11 @@ class TransactionAdapter(
         val transaction = transactions[pos].transaction
         transaction?.let {
             if (transaction.cost >= 0) {
-                holder.amount.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
-                holder.amount.setText("+" + String.format("%.2f", transaction.cost))
+                holder.amount.setTextColor(ContextCompat.getColor(context, R.color.colorIncome))
+                holder.amount.text = "+${String.format("%.2f", transaction.cost)}"
             } else {
                 holder.amount.text = String.format("%.2f", transaction.cost)
-                holder.amount.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+                holder.amount.setTextColor(ContextCompat.getColor(context, R.color.colorOutGo))
             }
             holder.date.text = dateFormat.format(transaction.date)
         }

@@ -68,13 +68,15 @@ class AddTransactionFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? Navigator)?.initToolbar(R.string.add_transaction_toolbar_title)
         transactionViewModel = ViewModelProviders.of(this, viewModelFactory).get(TransactionViewModel::class.java)
 
         s_category_type.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, TransactionType.values().toList().map { v -> getString(v.stringRes) })
         s_category_type.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
-                transactionViewModel.filter.value = position
+            override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
+                if (position >= 0) {
+                    transactionViewModel.filter.value = position
+                }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {

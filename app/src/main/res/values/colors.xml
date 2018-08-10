@@ -3,4 +3,9 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#4C5B66</color>
     <color name="colorAccent">#6b5b95</color>
+    
+    <color name="colorIncome">#558b2f</color>
+    <color name="colorOutGo">#d50000</color>
+
+    <color name="icon_color">#556470</color>
 </resources>

@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/add_period"
+            android:text="@string/choose_period"
             android:textColor="@color/colorAccent" />
 
         <Spinner
