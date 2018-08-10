@@ -10,7 +10,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
-import com.example.beardie.currencyholder.data.local.converter.PeriodConverter
 import com.example.beardie.currencyholder.data.local.converter.TransactionTypeConverter
 import com.example.beardie.currencyholder.data.local.dao.BalanceDao
 import com.example.beardie.currencyholder.data.local.dao.BalanceTransactionDao

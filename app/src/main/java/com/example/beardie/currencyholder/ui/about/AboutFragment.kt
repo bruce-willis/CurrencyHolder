@@ -14,13 +14,14 @@ import kotlinx.android.synthetic.main.fragment_about.*
 import java.util.concurrent.ThreadLocalRandom
 
 
-class AboutFragment : DaggerFragment(), View.OnClickListener {
+class AboutFragment : DaggerFragment() {
 
     private val listSmile = listOf("(＾▽＾)",
             "(◕‿◕)",
             "(✯◡✯)",
             "＼(＾▽＾)／",
-            "(＠＾◡＾)")
+            "(＠＾◡＾)",
+            "¯\\_(ツ)_/¯")
 
     companion object {
         fun newInstance(): AboutFragment {
@@ -36,16 +37,14 @@ class AboutFragment : DaggerFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? Navigator)?.initToolbar(R.string.about_toolbar_title)
-        button.setOnClickListener(this)
-        btn_send_email.setOnClickListener { view ->
+        button.setOnClickListener{
+            Toast.makeText(view.context, listSmile[ThreadLocalRandom.current().nextInt(0, 5)], Toast.LENGTH_SHORT).show()
+        }
+        btn_send_email.setOnClickListener {
             val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "iliailemkov@gmail.com", null))
+                    "mailto", "yury-belousov@yandex.ru", null))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Application CurrencyHolder feedback")
             startActivity(Intent.createChooser(emailIntent, "Send email"))
         }
-    }
-
-    override fun onClick(view: View) {
-        Toast.makeText(view.context, listSmile[ThreadLocalRandom.current().nextInt(0, 5)], Toast.LENGTH_SHORT).show()
     }
 }
