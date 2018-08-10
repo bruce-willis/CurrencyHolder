@@ -2,6 +2,7 @@
 
 ## Continuous Integration (dev branch)
 * CircleCI [![CircleCI](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/develop.svg?style=svg)](https://circleci.com/gh/bruce-willis/CurrencyHolder/tree/develop)
+* AppCenter [![Build status](https://build.appcenter.ms/v0.1/apps/32fd3403-5123-42e1-bde1-3844c326966a/branches/develop/badge)](https://appcenter.ms)
 * [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 ***
