@@ -56,16 +56,14 @@ class FinanceFragment : DaggerFragment(),
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val index = item.groupId
         val transaction = transactionAdapter.transactions[index].transaction!!
-        val action = item.order
 
 
-
-        return when (item.order) {
+            return when (item.order) {
             0 -> {
+                (activity as? Navigator)?.navigateTo({ AddTransactionFragment.newInstance(transaction) }, true)
                 true
             }
             1 -> {
-                Toast.makeText(context, transaction.toString() + action.toString(), Toast.LENGTH_SHORT).show()
                 financeViewModel.deleteTransaction(transaction)
                 true
             }
