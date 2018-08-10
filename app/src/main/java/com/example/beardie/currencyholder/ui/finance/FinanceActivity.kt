@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.DimenRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +21,7 @@ class FinanceActivity : DaggerAppCompatActivity(),
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finance)
         setSupportActionBar(toolbar)
@@ -66,7 +68,9 @@ class FinanceActivity : DaggerAppCompatActivity(),
     }
 
     override fun navigateTo(fragmentInstance: () -> Fragment, addToBackStack: Boolean, transaction: String?) {
-        val builder = supportFragmentManager.beginTransaction().replace(R.id.fl_finance_frame, fragmentInstance())
+        val builder = supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fl_finance_frame, fragmentInstance())
         if (addToBackStack) {
             builder.addToBackStack(transaction)
             supportActionBar?.apply {

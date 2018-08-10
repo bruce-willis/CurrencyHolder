@@ -43,4 +43,14 @@ object SeedValues {
 //            Transaction(-10.0, Date(), 2, 1),
 //            Transaction(2990.0, Date(), 2, 2)
     )
+
+    val PieChartColors = listOf(
+            Color.rgb(255, 204, 0),
+            Color.rgb(255, 0, 0),
+            Color.rgb(0, 0, 0),
+            Color.parseColor("#FF4D00"),
+            Color.parseColor("#DC143C"),
+            Color.parseColor("#FF7F50"),
+            Color.parseColor("#B8860B")
+    )
 }

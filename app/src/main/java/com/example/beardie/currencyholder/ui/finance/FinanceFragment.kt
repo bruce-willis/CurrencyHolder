@@ -19,6 +19,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.beardie.currencyholder.R
+import com.example.beardie.currencyholder.data.local.db.SeedValues.PieChartColors
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
 import com.example.beardie.currencyholder.di.ViewModelFactory
@@ -105,9 +106,9 @@ class FinanceFragment : DaggerFragment(),
             val dataSet = financeViewModel.summary?.value
 
             dataSet?.apply {
-                sliceSpace = 8f
+                sliceSpace = 2f
                 selectionShift = 8f
-                colors = ColorTemplate.PASTEL_COLORS.union(ColorTemplate.JOYFUL_COLORS.asIterable()).toList()
+                colors = PieChartColors
                 setDrawValues(false)
             }
 
