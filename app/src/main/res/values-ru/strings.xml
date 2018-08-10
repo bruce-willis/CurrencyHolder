@@ -4,14 +4,14 @@
     <string name="settings_toolbar_title">Настройки</string>
     <string name="about_toolbar_title">О приложении</string>
     <string name="add_transaction_toolbar_title">Добавить транзакцию</string>
-    <string name="title_no_transactions">Кто то украл ваши транзакции</string>
+    <string name="title_no_transactions">Здесь будут ваши транзакции</string>
     <string name="nav_header_title">Финансовый трекер</string>
     <string name="nav_header_description">Ваши деньги - наше приложение</string>
     <!-- format -->
     <string name="format_balance_text">%1$.2f %2$s</string>
 
     <string name="user_name_hint">Имя</string>
-    <string name="info_description">Это приложение Финансовый трекер для школы разработчиков Яндекс</string>
+    <string name="info_description">Это приложение — лучший Финансовый трекер.\nCозданно в рамках школы мобильной разработчи от Яндекс</string>
     <string name="info_button_title">Нажми меня</string>
 
     <string name="amount_hint">Количество</string>
@@ -34,4 +34,12 @@
 
     <string name="settings_switch_outgo">Показывать только траты</string>
     <string name="settings_switch_legend">Отображать легенду</string>
+    <string name="choose_period">Выберите период</string>
+    <string name="edit_title">Редактировать</string>
+    <string name="delete_title">Удалить</string>
+    <string name="logo">логотип</string>
+    <string name="dashboard_toolbar_title">Главная</string>
+    <string name="edit_transaction_toolbar_title">Редактировать транзакцию</string>
+    <string name="yandex">Яндекс</string>
+    <string name="edit_button">Редактировать</string>
 </resources>

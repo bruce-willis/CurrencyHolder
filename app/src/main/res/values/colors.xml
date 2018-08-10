@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#4C5B66</color>
-    <color name="colorAccent">#6b5b95</color>
+    <color name="colorPrimaryDark">#ffc61b</color>
+    <color name="colorAccent">#FFB3414B</color>
+
+    <color name="gradientEnd">#ffd54f</color>
+    <color name="gradientStart">#fee187</color>
+
+    <color name="colorIncome">#558b2f</color>
+    <color name="colorOutGo">#d50000</color>
+
+    <color name="icon_color">#556470</color>
 </resources>

@@ -2,15 +2,13 @@ package com.example.beardie.currencyholder.domain
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.beardie.currencyholder.data.repository.CategoryRepository
 import com.example.beardie.currencyholder.data.repository.SharedPrefRepository
-import com.example.beardie.currencyholder.data.repository.TransactionRepository
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
-import org.junit.Before
 import org.mockito.ArgumentMatchers.*
+import org.mockito.Mockito
 
 
 @RunWith(JUnit4::class)

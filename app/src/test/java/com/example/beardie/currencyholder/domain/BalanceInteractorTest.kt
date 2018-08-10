@@ -1,10 +1,5 @@
 package com.example.beardie.currencyholder.domain
 
-import com.example.beardie.currencyholder.data.repository.BalanceRepository
-import com.example.beardie.currencyholder.data.repository.ExchangeRepository
-import com.example.beardie.currencyholder.data.local.db.SeedDatabase
-import com.example.beardie.currencyholder.data.repository.TransactionRepository
-import com.example.beardie.currencyholder.data.model.Currency
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

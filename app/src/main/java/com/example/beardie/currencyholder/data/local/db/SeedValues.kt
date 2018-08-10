@@ -9,7 +9,7 @@ import com.example.beardie.currencyholder.data.model.Period
 import com.example.beardie.currencyholder.data.model.TransactionType
 import java.util.*
 
-object SeedDatabase {
+object SeedValues {
     var category = arrayOf(
             Category(1, "Зарплата", TransactionType.INCOME, Color.GREEN),
             Category(2, "Стипендия", TransactionType.INCOME, Color.GREEN),
@@ -27,20 +27,30 @@ object SeedDatabase {
     )
 
     var transactions = arrayOf(
-            Transaction(1000.0, Date(), 1, 1, Period.None),
-            Transaction(-500.0, Date(), 1, 3, Period.None),
-            Transaction(-400.0, Date(), 1, 4, Period.None),
-            Transaction(-50.0, Date(), 1, 3, Period.None),
-            Transaction(-20.0, Date(), 1, 3, Period.None),
-            Transaction(-10.0, Date(), 1, 2, Period.None),
-            Transaction(80.0, Date(), 1, 2, Period.None),
+            Transaction(1,1000.0, Date(), 1, 1),
+            Transaction(2,-500.0, Date(), 1, 3),
+            Transaction(3,-400.0, Date(), 1, 4),
+            Transaction(4,-50.0, Date(), 1, 3),
+            Transaction(5,-20.0, Date(), 1, 3),
+            Transaction(6,-10.0, Date(), 1, 2),
+            Transaction(7, 80.0, Date(), 1, 2)//,
 
-            Transaction(700.0, Date(), 2, 1, Period.None),
-            Transaction(-100.0, Date(), 2, 6, Period.None),
-            Transaction(-200.0, Date(), 2, 6, Period.None),
-            Transaction(-300.0, Date(), 2, 5, Period.None),
-            Transaction(-20.0, Date(), 2, 6, Period.None),
-            Transaction(-10.0, Date(), 2, 1, Period.None),
-            Transaction(2990.0, Date(), 2, 2, Period.None)
+//            Transaction(700.0, Date(), 2, 1),
+//            Transaction(-100.0, Date(), 2, 6),
+//            Transaction(-200.0, Date(), 2, 6),
+//            Transaction(-300.0, Date(), 2, 5),
+//            Transaction(-20.0, Date(), 2, 6),
+//            Transaction(-10.0, Date(), 2, 1),
+//            Transaction(2990.0, Date(), 2, 2)
+    )
+
+    val PieChartColors = listOf(
+            Color.rgb(255, 204, 0),
+            Color.rgb(255, 0, 0),
+            Color.rgb(0, 0, 0),
+            Color.parseColor("#FF4D00"),
+            Color.parseColor("#DC143C"),
+            Color.parseColor("#FF7F50"),
+            Color.parseColor("#B8860B")
     )
 }

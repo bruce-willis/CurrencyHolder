@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import javax.inject.Inject
 
-class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
+class SharedPrefRepository @Inject constructor(var shared: SharedPreferences) {
 
     companion object {
         const val DEFAULT_BALANCE = "DefaultBalance"
@@ -14,43 +14,43 @@ class SharedPrefRepository @Inject constructor(var shared : SharedPreferences) {
         const val USER_EMAIL = "UserEmail"
     }
 
-    fun setUserName(name : String) {
+    fun setUserName(name: String) {
         shared.edit().putString(USER_NAME, name).apply()
     }
 
-    fun getUserName() : String {
+    fun getUserName(): String {
         return shared.getString(USER_NAME, "")
     }
 
-    fun setUserEmail(email : String) {
+    fun setUserEmail(email: String) {
         shared.edit().putString(USER_EMAIL, email).apply()
     }
 
-    fun getUserEmail() : String {
+    fun getUserEmail(): String {
         return shared.getString(USER_EMAIL, "")
     }
 
-    fun setDefaultBalanace(balance : Balance) {
+    fun setDefaultBalanace(balance: Balance) {
         shared.edit().putLong(DEFAULT_BALANCE, balance.id).apply()
     }
 
-    fun getDefaultBalanace() : Long {
+    fun getDefaultBalanace(): Long {
         return shared.getLong(DEFAULT_BALANCE, 0)
     }
 
-    fun setOnlyOutcomes(value : Boolean) {
+    fun setOnlyOutcomes(value: Boolean) {
         shared.edit().putBoolean(ONLY_OUTCOME, value).apply()
     }
 
-    fun getOnlyOutcomes() : Boolean {
+    fun getOnlyOutcomes(): Boolean {
         return shared.getBoolean(ONLY_OUTCOME, false)
     }
 
-    fun setShowlegend(value : Boolean) {
+    fun setShowlegend(value: Boolean) {
         shared.edit().putBoolean(SHOW_LEGEND, value).apply()
     }
 
-    fun getShowlegend() : Boolean {
+    fun getShowlegend(): Boolean {
         return shared.getBoolean(SHOW_LEGEND, true)
     }
 }

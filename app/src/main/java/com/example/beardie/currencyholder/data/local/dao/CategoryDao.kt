@@ -11,5 +11,5 @@ interface CategoryDao : BaseDao<Category> {
     fun getAllCategories(): LiveData<List<Category>>
 
     @Query("SELECT * FROM category WHERE transactionType = :transactionTypeId")
-    fun getCategoriesByType(transactionTypeId : Int) : LiveData<List<Category>>
+    fun getCategoriesByType(transactionTypeId: Int): LiveData<List<Category>>
 }

@@ -6,11 +6,10 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import android.os.Build
-import com.example.beardie.currencyholder.BuildConfig
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.beardie.currencyholder.data.local.converter.CurrencyConverter
 import com.example.beardie.currencyholder.data.local.converter.DateConverter
-import com.example.beardie.currencyholder.data.local.converter.PeriodConverter
 import com.example.beardie.currencyholder.data.local.converter.TransactionTypeConverter
 import com.example.beardie.currencyholder.data.local.dao.BalanceDao
 import com.example.beardie.currencyholder.data.local.dao.BalanceTransactionDao
@@ -19,7 +18,7 @@ import com.example.beardie.currencyholder.data.local.dao.TransactionDao
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.entity.Category
 import com.example.beardie.currencyholder.data.local.entity.Transaction
-import java.util.concurrent.Executors
+import com.example.beardie.currencyholder.worker.SeedDatabaseWorker
 
 private const val DATABASE_NAME = "currency-db"
 
@@ -28,7 +27,7 @@ private const val DATABASE_NAME = "currency-db"
     Category::class,
     Transaction::class], version = 1,
         exportSchema = false)
-@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class, PeriodConverter::class])
+@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class])
 abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun balanceDao(): BalanceDao
     abstract fun categoryDao(): CategoryDao
@@ -58,28 +57,11 @@ abstract class CurrencyDatabase : RoomDatabase() {
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-
-                            if (BuildConfig.DEBUG)
-                            // TODO: move to workManager
-                            Executors.newSingleThreadScheduledExecutor().execute {
-                                insertData(getInstance(context))
-                            }
+                            val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
+                            WorkManager.getInstance(). enqueue(request)
                         }
                     })
                     .build()
-        }
-
-        private fun insertData(database: CurrencyDatabase) {
-            database.runInTransaction {
-                // maybe better with apply/with/...?
-                database.run {
-                    // spread operator
-                    // https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs
-                    balanceDao().insertAll(*SeedDatabase.balances)
-                    categoryDao().insertAll(*SeedDatabase.category)
-                    transactionDao().insertAll(*SeedDatabase.transactions)
-                }
-            }
         }
     }
 }

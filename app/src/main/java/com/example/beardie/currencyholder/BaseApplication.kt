@@ -1,11 +1,10 @@
 package com.example.beardie.currencyholder
 
-import com.crashlytics.android.Crashlytics
 import com.example.beardie.currencyholder.di.DaggerAppComponent
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
+import timber.log.Timber
 
 
 class BaseApplication : DaggerApplication() {
@@ -18,8 +17,18 @@ class BaseApplication : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        //Fabric.with(this, Crashlytics())
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
         LeakCanary.install(this)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
+        //Fabric.with(this, Crashlytics())
 //        Thread.setDefaultUncaughtExceptionHandler { paramThread, paramThrowable ->
 //            Crashlytics.logException(paramThrowable)
 //        }

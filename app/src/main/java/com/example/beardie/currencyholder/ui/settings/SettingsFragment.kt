@@ -1,13 +1,16 @@
 package com.example.beardie.currencyholder.ui.settings
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.di.ViewModelFactory
+import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.viewmodel.SettingsViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -18,10 +21,10 @@ class SettingsFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var settingViewModel : SettingsViewModel
+    private lateinit var settingViewModel: SettingsViewModel
 
     companion object {
-        fun newInstance() : SettingsFragment {
+        fun newInstance(): SettingsFragment {
             return SettingsFragment()
         }
     }
@@ -35,6 +38,7 @@ class SettingsFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? Navigator)?.initToolbar(R.string.settings_toolbar_title)
         switch_summary.isChecked = settingViewModel.getSummaryBoolean()
         switch_summary.setOnCheckedChangeListener { compoundButton, b ->
             settingViewModel.setSummaryBoolean(b)

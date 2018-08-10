@@ -10,7 +10,7 @@ import com.example.beardie.currencyholder.data.local.entity.Transaction
 import com.example.beardie.currencyholder.data.local.relation.BalanceWithTransactions
 
 @Dao
-interface BalanceTransactionDao  {
+interface BalanceTransactionDao {
     /**
      * This query will tell Room to query both the [Balance] and [Transaction] and [Category] tables and handle
      * the object mapping.
@@ -23,14 +23,14 @@ interface BalanceTransactionDao  {
     @Query("""UPDATE balance
             SET balance = balance + :difference
             WHERE id = :balanceId """)
-    fun updateBalance(difference : Double, balanceId: Long)
+    fun updateBalance(difference: Double, balanceId: Long)
 
     @Insert
     fun insertTransaction(transaction: Transaction)
 
     @android.arch.persistence.room.Transaction
-    fun insertOperationAndUpdateAmount(transaction: Transaction, balanceId: Long) {
+    fun insertOperationAndUpdateAmount(transaction: Transaction) {
         insertTransaction(transaction)
-        updateBalance(transaction.cost, balanceId)
+        updateBalance(transaction.cost, transaction.balanceId)
     }
 }
