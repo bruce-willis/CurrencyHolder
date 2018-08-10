@@ -28,7 +28,7 @@ private const val DATABASE_NAME = "currency-db"
     Category::class,
     Transaction::class], version = 1,
         exportSchema = false)
-@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class, PeriodConverter::class])
+@TypeConverters(value = [CurrencyConverter::class, TransactionTypeConverter::class, DateConverter::class])
 abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun balanceDao(): BalanceDao
     abstract fun categoryDao(): CategoryDao

@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
+import com.example.beardie.currencyholder.data.local.entity.Transaction
 import com.example.beardie.currencyholder.data.repository.BalanceRepository
 import com.example.beardie.currencyholder.data.repository.TransactionRepository
 import com.example.beardie.currencyholder.domain.SummaryInteractor
@@ -32,4 +33,6 @@ class FinanceViewModel @Inject constructor(
     fun getShowLegend(): Boolean {
         return summaryInteractor.getShowLegend()
     }
+
+    fun deleteTransaction(transaction: Transaction) = transactionRepository.deleteTransaction(transaction)
 }

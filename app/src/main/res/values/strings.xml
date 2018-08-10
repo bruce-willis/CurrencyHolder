@@ -11,7 +11,7 @@
     <string name="format_balance_text">%1$.2f %2$s</string>
 
     <string name="user_name_hint">Name</string>
-    <string name="info_description">This application is Financial Tracker for Yandex.School developer</string>
+    <string name="info_description">This application is the best Financial Tracker ever.\nIt was made during Yandex mobile developer school</string>
     <string name="info_button_title">Tap me</string>
 
     <string name="amount_hint">Amount</string>
@@ -34,7 +34,7 @@
 
     <string name="settings_switch_outgo">Show only outgo</string>
     <string name="settings_switch_legend">Show chart legend</string>
-    <string name="mit_license">Copyright © 2018 Ilia Ilemkov
+    <string name="mit_license" translatable="false">Copyright © 2018 Ilia Ilemkov
             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
             FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -44,6 +44,11 @@
             SOFTWARE.
     </string>
     <string name="choose_period">Choose transaction period</string>
-    <string name="dashboard_toolbar_title">Dashbord</string>
+    <string name="dashboard_toolbar_title">Dashboard</string>
     <string name="logo">logo</string>
+    <string name="edit_title">Edit</string>
+    <string name="delete_title">Delete</string>
+    <string name="edit_transaction_toolbar_title">Edit transaction</string>
+    <string name="yandex">Yandex</string>
+    <string name="edit_button">Edit</string>
 </resources>

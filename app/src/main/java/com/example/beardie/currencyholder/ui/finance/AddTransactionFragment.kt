@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.data.local.entity.Balance
 import com.example.beardie.currencyholder.data.local.entity.Category
+import com.example.beardie.currencyholder.data.local.entity.Transaction
 import com.example.beardie.currencyholder.data.model.Currency
 import com.example.beardie.currencyholder.data.model.Period
 import com.example.beardie.currencyholder.data.model.TransactionType
@@ -26,7 +27,7 @@ import java.lang.IllegalArgumentException
 import java.util.*
 import javax.inject.Inject
 
-
+private const val TRANSACTION_TAG = "transaction"
 class AddTransactionFragment : DaggerFragment() {
 
     @Inject
@@ -35,6 +36,8 @@ class AddTransactionFragment : DaggerFragment() {
     private lateinit var transactionViewModel: TransactionViewModel
 
     private var dateTime = Calendar.getInstance()
+
+    private var editableTransaction : Transaction? = null
 
     private val categoryList: Observer<List<Category>> = Observer { res ->
         if (res != null) {
@@ -54,22 +57,29 @@ class AddTransactionFragment : DaggerFragment() {
         }
     }
 
-    companion object {
-        fun newInstance(): AddTransactionFragment {
-            return AddTransactionFragment()
-        }
+    private fun subscribeUI() {
+        transactionViewModel = ViewModelProviders.of(this, viewModelFactory).get(TransactionViewModel::class.java)
+        transactionViewModel.balances.observe(viewLifecycleOwner, balanceList)
+        transactionViewModel.categories.observe(viewLifecycleOwner, categoryList)
+        transactionViewModel.currency.observe(viewLifecycleOwner, currencyList)
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_add_transaction, container, false)
+        val view = inflater.inflate(R.layout.fragment_add_transaction, container, false)
+        editableTransaction = arguments?.getParcelable(TRANSACTION_TAG)
+        subscribeUI()
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as? Navigator)?.initToolbar(R.string.add_transaction_toolbar_title)
-        transactionViewModel = ViewModelProviders.of(this, viewModelFactory).get(TransactionViewModel::class.java)
+        (activity as? Navigator)?.initToolbar(if (editableTransaction == null) R.string.add_transaction_toolbar_title else R.string.edit_transaction_toolbar_title)
+        if (editableTransaction != null) {
+            btn_save.setText(R.string.edit_button)
+        }
 
         s_category_type.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, TransactionType.values().toList().map { v -> getString(v.stringRes) })
         s_category_type.onItemSelectedListener = object : OnItemSelectedListener {
@@ -85,20 +95,6 @@ class AddTransactionFragment : DaggerFragment() {
 
         s_period.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, Period.values().toList().map { p -> p.title })
         initSaveButton()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        transactionViewModel.balances.observe(this, balanceList)
-        transactionViewModel.categories.observe(this, categoryList)
-        transactionViewModel.currency.observe(this, currencyList)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        transactionViewModel.categories.removeObservers(this)
-        transactionViewModel.balances.removeObservers(this)
-        transactionViewModel.currency.removeObservers(this)
     }
 
     private fun initSaveButton() {
@@ -133,5 +129,15 @@ class AddTransactionFragment : DaggerFragment() {
                 transactionViewModel.categories.value?.find { c -> c.name == s_category.adapter.getItem(s_category.selectedItemPosition) }!!,
                 Period.values().find { p -> p.title == s_period.adapter.getItem(s_period.selectedItemPosition) }!!)
         (activity!! as Navigator).navigateBack()
+    }
+
+    companion object {
+        fun newInstance(transaction: Transaction? = null) = AddTransactionFragment().apply {
+            arguments = Bundle().apply {
+                if (transaction != null) {
+                    putParcelable(TRANSACTION_TAG, transaction)
+                }
+            }
+        }
     }
 }
