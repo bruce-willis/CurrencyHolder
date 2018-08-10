@@ -106,7 +106,7 @@ class FinanceFragment : DaggerFragment(),
             val dataSet = financeViewModel.summary?.value
 
             dataSet?.apply {
-                sliceSpace = 1f
+                sliceSpace = 2f
                 selectionShift = 8f
                 colors = PieChartColors
                 setDrawValues(false)
