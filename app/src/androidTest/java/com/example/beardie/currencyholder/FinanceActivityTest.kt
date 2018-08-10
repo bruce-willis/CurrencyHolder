@@ -27,7 +27,7 @@ class FinanceActivityTest {
         checkDrawerIsOpen()
     }
 
-    @Test fun clickOnNavView_StartsFragments() {
+    @Test fun clickOnNavView_StartsSettingsFragments() {
         clickOnHomeIconToOpenNavigationDrawer()
 
         // Navigate to settings
@@ -36,6 +36,10 @@ class FinanceActivityTest {
 
         // Check that the Settings is visible
         Espresso.onView(ViewMatchers.withId(R.id.fragment_settings)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test fun clickOnNavView_StartsAboutFragments() {
+        clickOnHomeIconToOpenNavigationDrawer()
 
         // Navigate to about
         Espresso.onView(ViewMatchers.withId(R.id.nav_view))
