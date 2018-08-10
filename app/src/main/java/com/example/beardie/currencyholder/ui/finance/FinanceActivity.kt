@@ -12,6 +12,9 @@ import com.example.beardie.currencyholder.R
 import com.example.beardie.currencyholder.ui.Navigator
 import com.example.beardie.currencyholder.ui.about.AboutFragment
 import com.example.beardie.currencyholder.ui.settings.SettingsFragment
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_finance.*
 import kotlinx.android.synthetic.main.content_finance.*
@@ -25,6 +28,9 @@ class FinanceActivity : DaggerAppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finance)
         setSupportActionBar(toolbar)
+
+        // appcenter
+        AppCenter.start(application, "ccfcd564-9407-4f56-a977-8dc8d6803f35", Analytics::class.java, Crashes::class.java);
 
         nav_view.setNavigationItemSelectedListener { onNavigationItemSelected(it) }
 
